@@ -36,6 +36,10 @@ LASReader::LASReader(const std::string &filePath) {
 
   // set file pointer to the beginning of the point data
   lasFile.seekg(lasHeader->getOffsetToPointData(), std::ios::beg);
+
+  // create reader
+  reader = LASPointReaderFactory::createReader(lasFile, point, chooseFormat(lasHeader->getPointDataRecordFormat()));
+
 }
 
 LASReader::~LASReader() = default;
@@ -46,35 +50,5 @@ void LASReader::printHeader() {
 }
 
 bool LASReader::readPoint() {
-
-  uint8_t packet;
-
-  // read point
-  lasFile.read(reinterpret_cast<char*>(&point.x), 4);
-  lasFile.read(reinterpret_cast<char*>(&point.y), 4);
-  lasFile.read(reinterpret_cast<char*>(&point.z), 4);
-  lasFile.read(reinterpret_cast<char*>(&point.intensity), 2);
-  lasFile.read(reinterpret_cast<char*>(&packet), 1);
-
-  // get 3 first bits of packet
-  point.returnNumber = packet & 0b00000111;
-
-  // get 3 next bits of packet
-  point.numberOfReturns = (packet & 0b00111000) >> 3;
-
-  // get 1 next bit of packet
-  point.scanDirectionFlag = (packet & 0b01000000) >> 6;
-
-  // get 1 next bit of packet
-  point.edgeOfFlightLine = (packet & 0b10000000) >> 7;
-
-
-  lasFile.read(reinterpret_cast<char*>(&point.classification), 1);
-  lasFile.read(reinterpret_cast<char*>(&point.scanAngleRank), 1);
-  lasFile.read(reinterpret_cast<char*>(&point.userData), 1);
-  lasFile.read(reinterpret_cast<char*>(&point.pointSourceID), 2);
-
-
-  // check if we reached the end of the file
-  return !lasFile.eof();
+  return reader->readPoint();
 }

@@ -149,4 +149,9 @@ void LASHeader::print() {
 
 u_int32_t LASHeader::getOffsetToPointData() const {
   return offsetToPointData;
+}
+
+unsigned char LASHeader::getPointDataRecordFormat() const
+{
+  return pointDataRecordFormat;
 };

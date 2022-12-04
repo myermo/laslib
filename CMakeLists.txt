@@ -3,7 +3,7 @@ project(laslib)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_library(laslib LASHeader.h LASHeader.cpp LASReader.cpp LASReader.h LASPoint.cpp LASPoint.h)
+add_library(laslib LASHeader.h LASHeader.cpp LASReader.cpp LASReader.h LASPoint.cpp LASPoint.h AbstractLASPointReader.cpp AbstractLASPointReader.h)
 
 add_executable(laslib_test main.cpp)
 

@@ -7,5 +7,10 @@
 
 void LASPoint::printPoint() const
 {
-  std::cout << (int) x << " " << (int) y << " " << (int) z << " " << (int) intensity << " " << (int) returnNumber << " " << (int) numberOfReturns << " " << (int) scanDirectionFlag << " " << (int) edgeOfFlightLine << " " << (int) classification << " " << (int) scanAngleRank << " " << (int) userData << " " << (int) pointSourceID << std::endl;
+  std::cout << (int) x << " " << (int) y << " " << (int) z << " "
+  << (int) intensity << " " << (int) returnNumber << " "
+  << (int) numberOfReturns << " " << (int) scanDirectionFlag << " "
+  << (int) edgeOfFlightLine << " " << (int) classification << " "
+  << (int) scanAngleRank << " " << (int) userData << " "
+  << (int) pointSourceID << std::endl;
 }

@@ -7,6 +7,7 @@
 
 #include "LASHeader.h"
 #include "LASPoint.h"
+#include "AbstractLASPointReader.h"
 
 #include <string>
 #include <fstream>
@@ -19,6 +20,7 @@ private:
   std::ifstream lasFile{};
   std::unique_ptr<LASHeader> lasHeader;
   LASPoint point; // Point being currently read
+  std::unique_ptr<AbstractLASPointReader> reader;
 
   // *** CONSTRUCTION / DESTRUCTION *** //
   public:
