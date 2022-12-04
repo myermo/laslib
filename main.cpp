@@ -2,18 +2,16 @@
 // Created by miguelyermo on 4/12/22.
 //
 
-#include "LASHeader.h"
-#include <fstream>
+#include "LASReader.h"
 
 int main()
 {
 
-  // open binary file alcoy.las
-  std::ifstream fileStream("./alcoy.las", std::ios::binary);
+  LASReader lasReader("./alcoy.las");
 
-  LASHeader lasHeader;
+  lasReader.printHeader();
 
-  lasHeader.readHeader(fileStream);
+  lasReader.readPoint();
 
   return 0;
 }

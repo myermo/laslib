@@ -44,11 +44,11 @@ private:
   double minY{};
   double maxZ{};
   double minZ{};
-  u_int64_t startOfWaveformDataPacketRecord{};
-  u_int64_t startOfFirstExtendedVariableLengthRecord{};
-  u_int32_t numberOfExtendedVariableLengthRecords{};
-  u_int64_t numberOfPointRecords{};
-  u_int64_t numberOfPointsByReturn[15]{};
+//  u_int64_t startOfWaveformDataPacketRecord{};
+//  u_int64_t startOfFirstExtendedVariableLengthRecord{};
+//  u_int32_t numberOfExtendedVariableLengthRecords{};
+//  u_int64_t numberOfPointRecords{};
+//  u_int64_t numberOfPointsByReturn[15]{};
 
 
   // *** CONSTRUCTION / DESTRUCTION *** //
@@ -58,6 +58,8 @@ public:
 
   // *** METHODS *** //
   void readHeader(std::ifstream &fileStream);
+  void print();
 
   // *** GETTERS / SETTERS *** //
+  [[nodiscard]] u_int32_t getOffsetToPointData() const;
 };

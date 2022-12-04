@@ -105,40 +105,48 @@ fileStream.read(reinterpret_cast<char*>(&maxZ), 8);
 fileStream.read(reinterpret_cast<char*>(&minZ), 8);
 
 
-std::cout << std::setprecision(2) << std::fixed;
-
-std::cout << "File signature: " << fileSignature << std::endl;
-std::cout << "File source ID: " << fileSourceID << std::endl;
-std::cout << "Global encoding: " << globalEncoding << std::endl;
-std::cout << "Project ID GUID data 1: " << projectID_GUID_data_1 << std::endl;
-std::cout << "Project ID GUID data 2: " << projectID_GUID_data_2 << std::endl;
-std::cout << "Project ID GUID data 3: " << projectID_GUID_data_3 << std::endl;
-std::cout << "Project ID GUID data 4: " << projectID_GUID_data_4 << std::endl;
-std::cout << "Version major: " << static_cast<int>(versionMajor) << std::endl;
-std::cout << "Version minor: " << static_cast<int>(versionMinor) << std::endl;
-std::cout << "System identifier: " << systemIdentifier << std::endl;
-std::cout << "Generating software: " << generatingSoftware << std::endl;
-std::cout << "File creation day of year: " << fileCreationDayOfYear << std::endl;
-std::cout << "File creation year: " << fileCreationYear << std::endl;
-std::cout << "Header size: " << headerSize << std::endl;
-std::cout << "Offset to point data: " << offsetToPointData << std::endl;
-std::cout << "Number of variable length records: " << numberOfVariableLengthRecords << std::endl;
-std::cout << "Point data record format: " << static_cast<int>(pointDataRecordFormat) << std::endl;
-std::cout << "Point data record length: " << pointDataRecordLength << std::endl;
-std::cout << "Legacy number of point records: " << legacyNumberOfPointRecords << std::endl;
-std::cout << "Legacy number of points by return: " << legacyNumberOfPointsByReturn[0] << " "
-<< legacyNumberOfPointsByReturn[1] << " " << legacyNumberOfPointsByReturn[2] << " " << legacyNumberOfPointsByReturn[3] << " "
-<< legacyNumberOfPointsByReturn[4] << std::endl;
-std::cout << "X scale factor: " << xScaleFactor << std::endl;
-std::cout << "Y scale factor: " << yScaleFactor << std::endl;
-std::cout << "Z scale factor: " << zScaleFactor << std::endl;
-std::cout << "X offset: " << xOffset << std::endl;
-std::cout << "Y offset: " << yOffset << std::endl;
-std::cout << "Z offset: " << zOffset << std::endl;
-std::cout << "Max x: " << maxX << std::endl;
-std::cout << "Min x: " << minX << std::endl;
-std::cout << "Max y: " << maxY << std::endl;
-std::cout << "Min y: " << minY << std::endl;
-std::cout << "Max z: " << maxZ << std::endl;
-std::cout << "Min z: " << minZ << std::endl;
 }
+
+void LASHeader::print() {
+  // Print the header
+  std::cout << std::setprecision(2) << std::fixed;
+
+  std::cout << "File signature: " << fileSignature << std::endl;
+  std::cout << "File source ID: " << fileSourceID << std::endl;
+  std::cout << "Global encoding: " << globalEncoding << std::endl;
+  std::cout << "Project ID GUID data 1: " << projectID_GUID_data_1 << std::endl;
+  std::cout << "Project ID GUID data 2: " << projectID_GUID_data_2 << std::endl;
+  std::cout << "Project ID GUID data 3: " << projectID_GUID_data_3 << std::endl;
+  std::cout << "Project ID GUID data 4: " << projectID_GUID_data_4 << std::endl;
+  std::cout << "Version major: " << static_cast<int>(versionMajor) << std::endl;
+  std::cout << "Version minor: " << static_cast<int>(versionMinor) << std::endl;
+  std::cout << "System identifier: " << systemIdentifier << std::endl;
+  std::cout << "Generating software: " << generatingSoftware << std::endl;
+  std::cout << "File creation day of year: " << fileCreationDayOfYear << std::endl;
+  std::cout << "File creation year: " << fileCreationYear << std::endl;
+  std::cout << "Header size: " << headerSize << std::endl;
+  std::cout << "Offset to point data: " << offsetToPointData << std::endl;
+  std::cout << "Number of variable length records: " << numberOfVariableLengthRecords << std::endl;
+  std::cout << "Point data record format: " << static_cast<int>(pointDataRecordFormat) << std::endl;
+  std::cout << "Point data record length: " << pointDataRecordLength << std::endl;
+  std::cout << "Legacy number of point records: " << legacyNumberOfPointRecords << std::endl;
+  std::cout << "Legacy number of points by return: " << legacyNumberOfPointsByReturn[0] << " "
+  << legacyNumberOfPointsByReturn[1] << " " << legacyNumberOfPointsByReturn[2] << " " << legacyNumberOfPointsByReturn[3] << " "
+  << legacyNumberOfPointsByReturn[4] << std::endl;
+  std::cout << "X scale factor: " << xScaleFactor << std::endl;
+  std::cout << "Y scale factor: " << yScaleFactor << std::endl;
+  std::cout << "Z scale factor: " << zScaleFactor << std::endl;
+  std::cout << "X offset: " << xOffset << std::endl;
+  std::cout << "Y offset: " << yOffset << std::endl;
+  std::cout << "Z offset: " << zOffset << std::endl;
+  std::cout << "Max x: " << maxX << std::endl;
+  std::cout << "Min x: " << minX << std::endl;
+  std::cout << "Max y: " << maxY << std::endl;
+  std::cout << "Min y: " << minY << std::endl;
+  std::cout << "Max z: " << maxZ << std::endl;
+  std::cout << "Min z: " << minZ << std::endl;
+}
+
+u_int32_t LASHeader::getOffsetToPointData() const {
+  return offsetToPointData;
+};
