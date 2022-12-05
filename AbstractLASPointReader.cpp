@@ -83,6 +83,133 @@ bool LASPointReader_3::readPoint()
   return !lasFile.eof();
 }
 
+bool LASPointReader_4::readPoint()
+{
+  reader_1.readPoint();
+
+  lasFile.read(reinterpret_cast<char*>(&point.wavePacketDescriptorIndex), 1);
+  lasFile.read(reinterpret_cast<char*>(&point.byteOffsetToWaveformData), 8);
+  lasFile.read(reinterpret_cast<char*>(&point.waveformDataPacketSize), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.returnPointWaveformLocation), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.xt), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.yt), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.zt), 4);
+
+
+  return !lasFile.eof();
+}
+
+bool LASPointReader_5::readPoint()
+{
+  reader_3.readPoint();
+
+  // TODO: Avoid code duplication with LASPointReader_4
+  lasFile.read(reinterpret_cast<char*>(&point.wavePacketDescriptorIndex), 1);
+  lasFile.read(reinterpret_cast<char*>(&point.byteOffsetToWaveformData), 8);
+  lasFile.read(reinterpret_cast<char*>(&point.waveformDataPacketSize), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.returnPointWaveformLocation), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.xt), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.yt), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.zt), 4);
+
+  return !lasFile.eof();
+}
+
+bool LASPointReader_6::readPoint()
+{
+
+  // TODO: Avoid code duplication
+  lasFile.read(reinterpret_cast<char*>(&point.x), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.y), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.z), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.intensity), 2);
+
+  uint16_t packet{};
+  uint8_t classification{};
+
+  lasFile.read(reinterpret_cast<char*>(&packet), 2);
+
+
+  // get 0-3 bits of packet
+  point.extended_returnNumber = packet & 0x0F;
+
+  // get 4-7 bits of packet
+  point.extended_numberOfReturns = (packet & 0xF0) >> 4;
+
+  // get 8-11 bits of packet
+  point.extended_classificationFlags = (packet & 0x0F00) >> 8;
+
+  // get 2 next bits of packet
+  point.extended_scannerChannel = (packet & 0x3000) >> 12;
+
+  // get 1 next bits of packet
+  point.extended_scanDirectionFlag = (packet & 0x4000) >> 14;
+
+  // get 1 next bits of packet
+  point.extended_edgeOfFlightLine = (packet & 0x8000) >> 15;
+
+  lasFile.read(reinterpret_cast<char*>(&point.extended_classification), 1);
+
+  lasFile.read(reinterpret_cast<char*>(&point.userData), 1);
+  lasFile.read(reinterpret_cast<char*>(&point.extended_scanAngleRank), 2);
+  lasFile.read(reinterpret_cast<char*>(&point.pointSourceID), 2);
+  lasFile.read(reinterpret_cast<char*>(&point.gpsTime), 8);
+
+
+
+  return !lasFile.eof();
+}
+
+bool LASPointReader_7::readPoint()
+{
+  reader_6.readPoint();
+
+  lasFile.read(reinterpret_cast<char*>(&point.red), 2);
+  lasFile.read(reinterpret_cast<char*>(&point.green), 2);
+  lasFile.read(reinterpret_cast<char*>(&point.blue), 2);
+
+  return !lasFile.eof();
+}
+
+bool LASPointReader_8::readPoint()
+{
+  reader_7.readPoint();
+
+  lasFile.read(reinterpret_cast<char*>(&point.nir), 2);
+
+  return !lasFile.eof();
+}
+
+bool LASPointReader_9::readPoint()
+{
+  reader_6.readPoint();
+
+  lasFile.read(reinterpret_cast<char*>(&point.wavePacketDescriptorIndex), 1);
+  lasFile.read(reinterpret_cast<char*>(&point.byteOffsetToWaveformData), 8);
+  lasFile.read(reinterpret_cast<char*>(&point.waveformDataPacketSize), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.returnPointWaveformLocation), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.xt), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.yt), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.zt), 4);
+
+  return !lasFile.eof();
+}
+
+bool LASPointReader_10::readPoint()
+{
+  reader_8.readPoint();
+
+  lasFile.read(reinterpret_cast<char*>(&point.wavePacketDescriptorIndex), 1);
+  lasFile.read(reinterpret_cast<char*>(&point.byteOffsetToWaveformData), 8);
+  lasFile.read(reinterpret_cast<char*>(&point.waveformDataPacketSize), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.returnPointWaveformLocation), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.xt), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.yt), 4);
+  lasFile.read(reinterpret_cast<char*>(&point.zt), 4);
+
+  return !lasFile.eof();
+}
+
 std::unique_ptr<AbstractLASPointReader>
 LASPointReaderFactory::createReader(std::ifstream &lasFile, LASPoint &point,
                                     PointDataRecordFormat format)
@@ -114,6 +241,20 @@ PointDataRecordFormat chooseFormat(unsigned char format)
       return PointDataRecordFormat::Format2;
     case 3:
       return PointDataRecordFormat::Format3;
+    case 4:
+      return PointDataRecordFormat::Format4;
+    case 5:
+      return PointDataRecordFormat::Format5;
+    case 6:
+      return PointDataRecordFormat::Format6;
+    case 7:
+      return PointDataRecordFormat::Format7;
+    case 8:
+      return PointDataRecordFormat::Format8;
+    case 9:
+      return PointDataRecordFormat::Format9;
+    case 10:
+      return PointDataRecordFormat::Format10;
     default:
       return PointDataRecordFormat::Format0;
   }

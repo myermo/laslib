@@ -44,11 +44,11 @@ private:
   double minY{};
   double maxZ{};
   double minZ{};
-//  u_int64_t startOfWaveformDataPacketRecord{};
-//  u_int64_t startOfFirstExtendedVariableLengthRecord{};
-//  u_int32_t numberOfExtendedVariableLengthRecords{};
-//  u_int64_t numberOfPointRecords{};
-//  u_int64_t numberOfPointsByReturn[15]{};
+  u_int64_t startOfWaveformDataPacketRecord{};
+  u_int64_t startOfFirstExtendedVariableLengthRecord{};
+  u_int32_t numberOfExtendedVariableLengthRecords{};
+  u_int64_t numberOfPointRecords{};
+  u_int64_t numberOfPointsByReturn[15]{};
 
 
   // *** CONSTRUCTION / DESTRUCTION *** //
