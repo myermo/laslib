@@ -17,8 +17,6 @@ class LASvlr
     uint16_t recordLengthAfterHeader{};
     char description[32]{};
 
-    // *** CONSTRUCTION / DESTRUCTION *** //
-
   // *** CONSTRUCTION / DESTRUCTION *** //
 
 
@@ -26,4 +24,17 @@ class LASvlr
 
 
   // *** GETTERS / SETTERS *** //
+};
+
+class ELASvlr
+{
+  // *** ATTRIBUTES *** //
+  public:
+    uint16_t reserved{};
+    char userID[16]{};
+    uint16_t recordID{};
+    uint64_t recordLengthAfterHeader{};
+    char description[32]{};
+
+  // *** CONSTRUCTION / DESTRUCTION *** //
 };
