@@ -104,7 +104,24 @@ fileStream.read(reinterpret_cast<char*>(&maxZ), 8);
 // Read the min z
 fileStream.read(reinterpret_cast<char*>(&minZ), 8);
 
+// Read campos only belonging to LAS 1.4
+if (versionMajor >= 1 && versionMinor >= 4)
+{
+  // Read the start of wave data packet record
+  fileStream.read(reinterpret_cast<char*>(&startOfWaveformDataPacketRecord), 8);
 
+  // Read the start of first extended variable length record
+  fileStream.read(reinterpret_cast<char*>(&startOfFirstExtendedVariableLengthRecord), 8);
+
+  // Read the number of extended variable length records
+  fileStream.read(reinterpret_cast<char*>(&numberOfExtendedVariableLengthRecords), 4);
+
+  // Read the number of point records
+  fileStream.read(reinterpret_cast<char*>(&numberOfPointRecords), 8);
+
+  // Read the number of points by return
+  fileStream.read(reinterpret_cast<char*>(&numberOfPointsByReturn), 120);
+}
 }
 
 void LASHeader::print() {
