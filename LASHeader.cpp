@@ -172,3 +172,13 @@ unsigned char LASHeader::getPointDataRecordFormat() const
 {
   return pointDataRecordFormat;
 };
+
+uint16_t LASHeader::getOffsetToVLR() const
+{
+  return headerSize;
+};
+
+uint64_t LASHeader::getOffsetToEVLR() const
+{
+  return startOfFirstExtendedVariableLengthRecord;
+};

@@ -47,10 +47,18 @@ std::shared_ptr<AbstractLASPointReader> LASReader::getPointReader() {
 }
 
 std::shared_ptr<vlrReader> LASReader::getVlrReader() {
+
+  // set file pointer to the beginning of the vlr
+  lasFile.seekg(lasHeader->getOffsetToVLR(), std::ios::beg);
+
   return std::make_shared<vlrReader>(lasFile, vlr);
 }
 
 std::shared_ptr<evlrReader> LASReader::getEvlrReader() {
+
+  //set file pointer to the beginning of the evlr
+  lasFile.seekg(lasHeader->getOffsetToEVLR(), std::ios::beg);
+
   return std::make_shared<evlrReader>(lasFile, evlr);
 }
 

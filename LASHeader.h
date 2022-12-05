@@ -63,6 +63,8 @@ public:
 
   // *** GETTERS / SETTERS *** //
   [[nodiscard]] uint32_t getOffsetToPointData() const;
+  [[nodiscard]] uint16_t getOffsetToVLR() const;
+  [[nodiscard]] uint64_t getOffsetToEVLR() const;
 
   [[nodiscard]] unsigned char getPointDataRecordFormat() const;
 };
