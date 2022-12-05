@@ -164,7 +164,7 @@ void LASHeader::print() {
   std::cout << "Min z: " << minZ << std::endl;
 }
 
-u_int32_t LASHeader::getOffsetToPointData() const {
+  uint32_t LASHeader::getOffsetToPointData() const {
   return offsetToPointData;
 }
 
