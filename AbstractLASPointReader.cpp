@@ -36,7 +36,7 @@ void readWavePackets(std::ifstream &lasFile, LASPoint &point)
   lasFile.read(reinterpret_cast<char*>(&point.zt), 4);
 }
 
-// implement readPoint for LASPointReader_1
+// implement getPointReader for LASPointReader_1
 bool LASPointReader_0::readPoint()
 {
   uint8_t packet{};
@@ -198,34 +198,34 @@ bool LASPointReader_10::readPoint()
   return !lasFile.eof();
 }
 
-std::unique_ptr<AbstractLASPointReader>
+std::shared_ptr<AbstractLASPointReader>
 LASPointReaderFactory::createReader(std::ifstream &lasFile, LASPoint &point,
                                     PointDataRecordFormat format)
 {
   switch (format)
   {
     case PointDataRecordFormat::Format0:
-      return std::make_unique<LASPointReader_0>(lasFile, point);
+      return std::make_shared<LASPointReader_0>(lasFile, point);
     case PointDataRecordFormat::Format1:
-      return std::make_unique<LASPointReader_1>(lasFile, point);
+      return std::make_shared<LASPointReader_1>(lasFile, point);
     case PointDataRecordFormat::Format2:
-      return std::make_unique<LASPointReader_2>(lasFile, point);
+      return std::make_shared<LASPointReader_2>(lasFile, point);
     case PointDataRecordFormat::Format3:
-      return std::make_unique<LASPointReader_3>(lasFile, point);
+      return std::make_shared<LASPointReader_3>(lasFile, point);
     case PointDataRecordFormat::Format4:
-      return std::make_unique<LASPointReader_4>(lasFile, point);
+      return std::make_shared<LASPointReader_4>(lasFile, point);
     case PointDataRecordFormat::Format5:
-      return std::make_unique<LASPointReader_5>(lasFile, point);
+      return std::make_shared<LASPointReader_5>(lasFile, point);
     case PointDataRecordFormat::Format6:
-      return std::make_unique<LASPointReader_6>(lasFile, point);
+      return std::make_shared<LASPointReader_6>(lasFile, point);
     case PointDataRecordFormat::Format7:
-      return std::make_unique<LASPointReader_7>(lasFile, point);
+      return std::make_shared<LASPointReader_7>(lasFile, point);
     case PointDataRecordFormat::Format8:
-      return std::make_unique<LASPointReader_8>(lasFile, point);
+      return std::make_shared<LASPointReader_8>(lasFile, point);
     case PointDataRecordFormat::Format9:
-      return std::make_unique<LASPointReader_9>(lasFile, point);
+      return std::make_shared<LASPointReader_9>(lasFile, point);
     case PointDataRecordFormat::Format10:
-      return std::make_unique<LASPointReader_10>(lasFile, point);
+      return std::make_shared<LASPointReader_10>(lasFile, point);
     default:
       return nullptr;
   }

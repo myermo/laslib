@@ -6,6 +6,7 @@
 #pragma once
 
 #include <cstdint>
+#include <vector>
 
 class LASvlr
 {
@@ -16,6 +17,7 @@ class LASvlr
     uint16_t recordID{};
     uint16_t recordLengthAfterHeader{};
     char description[32]{};
+    std::vector<char> data{};
 
   // *** CONSTRUCTION / DESTRUCTION *** //
 
@@ -26,7 +28,7 @@ class LASvlr
   // *** GETTERS / SETTERS *** //
 };
 
-class ELASvlr
+class LASevlr
 {
   // *** ATTRIBUTES *** //
   public:
@@ -35,6 +37,7 @@ class ELASvlr
     uint16_t recordID{};
     uint64_t recordLengthAfterHeader{};
     char description[32]{};
+    std::vector<char> data{};
 
   // *** CONSTRUCTION / DESTRUCTION *** //
 };

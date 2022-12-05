@@ -4,6 +4,7 @@
 
 #include "LASReader.h"
 #include "LASHeader.h"
+#include "vlrReader.h"
 
 #include <iostream>
 #include <memory>
@@ -33,22 +34,27 @@ LASReader::LASReader(const std::string &filePath) {
   // read header
   lasHeader = std::make_unique<LASHeader>();
   lasHeader->readHeader(lasFile);
-
-  // set file pointer to the beginning of the point data
-  lasFile.seekg(lasHeader->getOffsetToPointData(), std::ios::beg);
-
-  // create reader
-  reader = LASPointReaderFactory::createReader(lasFile, point, chooseFormat(lasHeader->getPointDataRecordFormat()));
-
 }
 
 LASReader::~LASReader() = default;
 
-// TODO: What happens if I call this method before reading the header?
-void LASReader::printHeader() {
-  lasHeader->print();
+
+std::shared_ptr<AbstractLASPointReader> LASReader::getPointReader() {
+  // set file pointer to the beginning of the point data
+  lasFile.seekg(lasHeader->getOffsetToPointData(), std::ios::beg);
+  // create reader
+  return LASPointReaderFactory::createReader(lasFile, point, chooseFormat(lasHeader->getPointDataRecordFormat()));
 }
 
-bool LASReader::readPoint() {
-  return reader->readPoint();
+std::shared_ptr<vlrReader> LASReader::getVlrReader() {
+  return std::make_shared<vlrReader>(lasFile, vlr);
+}
+
+std::shared_ptr<evlrReader> LASReader::getEvlrReader() {
+  return std::make_shared<evlrReader>(lasFile, evlr);
+}
+
+const std::unique_ptr<LASHeader> &LASReader::getLasHeader() const
+{
+  return lasHeader;
 }

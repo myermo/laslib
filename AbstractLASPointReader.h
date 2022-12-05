@@ -234,7 +234,7 @@ class LASPointReaderFactory
 {
   // *** METHODS *** //
 public:
-  static std::unique_ptr<AbstractLASPointReader>
+  static std::shared_ptr<AbstractLASPointReader>
   createReader(std::ifstream &lasFile, LASPoint &point,
                PointDataRecordFormat format);
 };

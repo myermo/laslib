@@ -14,7 +14,10 @@ int main()
   auto start = std::chrono::high_resolution_clock::now();
 
   size_t i{};
-  while(lasReader.readPoint()) {
+
+  auto reader = lasReader.getPointReader();
+
+  while(reader->readPoint()) {
     ++i;
   }
 

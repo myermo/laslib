@@ -7,7 +7,9 @@
 
 #include "LASHeader.h"
 #include "LASPoint.h"
+#include "LASvlr.h"
 #include "AbstractLASPointReader.h"
+#include "vlrReader.h"
 
 #include <string>
 #include <fstream>
@@ -20,17 +22,21 @@ private:
   std::ifstream lasFile{};
   std::unique_ptr<LASHeader> lasHeader;
   LASPoint point; // Point being currently read
-  std::unique_ptr<AbstractLASPointReader> reader;
+  LASvlr vlr; // Variable length record being currently read
+  LASevlr evlr; // Extended variable length record being currently read
 
   // *** CONSTRUCTION / DESTRUCTION *** //
   public:
-    LASReader(const std::string& filePath);
+    explicit LASReader(const std::string& filePath);
     ~LASReader();
 
   // *** METHODS *** //
   public:
-    void printHeader();
-    bool readPoint();
+    std::shared_ptr<AbstractLASPointReader> getPointReader();
+    std::shared_ptr<vlrReader> getVlrReader();
+    std::shared_ptr<evlrReader> getEvlrReader();
 
   // *** GETTERS / SETTERS *** //
+
+  const std::unique_ptr<LASHeader> &getLasHeader() const;
 };
