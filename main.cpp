@@ -2,14 +2,14 @@
 // Created by miguelyermo on 4/12/22.
 //
 
-#include "LASReader.h"
+#include "LASFile.h"
 #include <iostream>
 #include <chrono>
 
 int main()
 {
 
-  LASReader lasReader("./alcoy.las");
+  LASFile lasReader("./alcoy.las");
 
   auto start = std::chrono::high_resolution_clock::now();
 

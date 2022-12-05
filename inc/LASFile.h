@@ -15,7 +15,7 @@
 #include <fstream>
 #include <memory>
 
-class LASReader
+class LASFile
 {
 private:
   // *** ATTRIBUTES *** //
@@ -27,8 +27,8 @@ private:
 
   // *** CONSTRUCTION / DESTRUCTION *** //
   public:
-    explicit LASReader(const std::string& filePath);
-    ~LASReader();
+    explicit LASFile(const std::string& filePath);
+    ~LASFile();
 
   // *** METHODS *** //
   public:
