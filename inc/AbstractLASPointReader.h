@@ -31,9 +31,10 @@ enum PointDataRecordFormat
 class AbstractLASPointReader
 {
   // *** ATTRIBUTES *** //
+public:
+  LASPoint& point;
 protected:
   std::ifstream& lasFile;
-  LASPoint& point;
 
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:

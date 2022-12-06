@@ -181,4 +181,179 @@ uint16_t LASHeader::getOffsetToVLR() const
 uint64_t LASHeader::getOffsetToEVLR() const
 {
   return startOfFirstExtendedVariableLengthRecord;
+}
+
+const char* LASHeader::getFileSignature() const
+{
+  return fileSignature;
+}
+
+uint16_t LASHeader::getFileSourceId() const
+{
+  return fileSourceID;
+}
+
+uint16_t LASHeader::getGlobalEncoding() const
+{
+  return globalEncoding;
+}
+
+uint32_t LASHeader::getProjectIdGuidData1() const
+{
+  return projectID_GUID_data_1;
+}
+
+uint16_t LASHeader::getProjectIdGuidData2() const
+{
+  return projectID_GUID_data_2;
+}
+
+uint16_t LASHeader::getProjectIdGuidData3() const
+{
+  return projectID_GUID_data_3;
+}
+
+const unsigned char* LASHeader::getProjectIdGuidData4() const
+{
+  return projectID_GUID_data_4;
+}
+
+unsigned char LASHeader::getVersionMajor() const
+{
+  return versionMajor;
+}
+
+unsigned char LASHeader::getVersionMinor() const
+{
+  return versionMinor;
+}
+
+const char* LASHeader::getSystemIdentifier() const
+{
+  return systemIdentifier;
+}
+
+const char* LASHeader::getGeneratingSoftware() const
+{
+  return generatingSoftware;
+}
+
+uint16_t LASHeader::getFileCreationDayOfYear() const
+{
+  return fileCreationDayOfYear;
+}
+
+uint16_t LASHeader::getFileCreationYear() const
+{
+  return fileCreationYear;
+}
+
+uint16_t LASHeader::getHeaderSize() const
+{
+  return headerSize;
+}
+
+uint32_t LASHeader::getNumberOfVariableLengthRecords() const
+{
+  return numberOfVariableLengthRecords;
+}
+
+uint16_t LASHeader::getPointDataRecordLength() const
+{
+  return pointDataRecordLength;
+}
+
+uint32_t LASHeader::getLegacyNumberOfPointRecords() const
+{
+  return legacyNumberOfPointRecords;
+}
+
+const uint32_t* LASHeader::getLegacyNumberOfPointsByReturn() const
+{
+  return legacyNumberOfPointsByReturn;
+}
+
+double LASHeader::getXScaleFactor() const
+{
+  return xScaleFactor;
+}
+
+double LASHeader::getYScaleFactor() const
+{
+  return yScaleFactor;
+}
+
+double LASHeader::getZScaleFactor() const
+{
+  return zScaleFactor;
+}
+
+double LASHeader::getXOffset() const
+{
+  return xOffset;
+}
+
+double LASHeader::getYOffset() const
+{
+  return yOffset;
+}
+
+double LASHeader::getZOffset() const
+{
+  return zOffset;
+}
+
+double LASHeader::getMaxX() const
+{
+  return maxX;
+}
+
+double LASHeader::getMinX() const
+{
+  return minX;
+}
+
+double LASHeader::getMaxY() const
+{
+  return maxY;
+}
+
+double LASHeader::getMinY() const
+{
+  return minY;
+}
+
+double LASHeader::getMaxZ() const
+{
+  return maxZ;
+}
+
+double LASHeader::getMinZ() const
+{
+  return minZ;
+}
+
+uint64_t LASHeader::getStartOfWaveformDataPacketRecord() const
+{
+  return startOfWaveformDataPacketRecord;
+}
+
+uint64_t LASHeader::getStartOfFirstExtendedVariableLengthRecord() const
+{
+  return startOfFirstExtendedVariableLengthRecord;
+}
+
+uint32_t LASHeader::getNumberOfExtendedVariableLengthRecords() const
+{
+  return numberOfExtendedVariableLengthRecords;
+}
+
+uint64_t LASHeader::getNumberOfPointRecords() const
+{
+  return numberOfPointRecords;
+}
+
+const uint64_t* LASHeader::getNumberOfPointsByReturn() const
+{
+  return numberOfPointsByReturn;
 };
