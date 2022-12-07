@@ -29,7 +29,6 @@ public:
   [[nodiscard]] uint16_t getOffsetToVLR() const;
   [[nodiscard]] uint64_t getOffsetToEVLR() const;
   [[nodiscard]] unsigned char getPointDataRecordFormat() const;
-
   [[nodiscard]] const char* getFileSignature() const;
   [[nodiscard]] uint16_t getFileSourceId() const;
   [[nodiscard]] uint16_t getGlobalEncoding() const;
