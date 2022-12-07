@@ -7,59 +7,22 @@
 
 #include <fstream>
 #include <cstdint>
-
+#include <memory>
 
 class LASHeader
 {
-  // *** Attributes *** //
-private:
-  char fileSignature[4]{};
-  uint16_t fileSourceID{};
-  uint16_t globalEncoding{};
-  uint32_t projectID_GUID_data_1{};
-  uint16_t projectID_GUID_data_2{};
-  uint16_t projectID_GUID_data_3{};
-  unsigned char projectID_GUID_data_4[8]{};
-  unsigned char versionMajor{};
-  unsigned char versionMinor{};
-  char systemIdentifier[32]{};
-  char generatingSoftware[32]{};
-  uint16_t fileCreationDayOfYear{};
-  uint16_t fileCreationYear{};
-  uint16_t headerSize{};
-  uint32_t offsetToPointData{};
-  uint32_t numberOfVariableLengthRecords{};
-  unsigned char pointDataRecordFormat{};
-  uint16_t pointDataRecordLength{};
-  uint32_t legacyNumberOfPointRecords{};
-  uint32_t legacyNumberOfPointsByReturn[5]{};
-  double xScaleFactor{};
-  double yScaleFactor{};
-  double zScaleFactor{};
-  double xOffset{};
-  double yOffset{};
-  double zOffset{};
-  double maxX{};
-  double minX{};
-  double maxY{};
-  double minY{};
-  double maxZ{};
-  double minZ{};
-  uint64_t startOfWaveformDataPacketRecord{};
-  uint64_t startOfFirstExtendedVariableLengthRecord{};
-  uint32_t numberOfExtendedVariableLengthRecords{};
-  uint64_t numberOfPointRecords{};
-  uint64_t numberOfPointsByReturn[15]{};
+public:
+  class Impl;
+  std::unique_ptr<Impl> impl{};
 
 
   // *** CONSTRUCTION / DESTRUCTION *** //
-public:
-  LASHeader() = default;
-  ~LASHeader() = default;
+  LASHeader();
+  ~LASHeader();
 
   // *** METHODS *** //
-  void readHeader(std::ifstream &fileStream);
-  void print();
+  void readHeader(std::ifstream &fileStream) const;
+  void print() const;
 
   // *** GETTERS / SETTERS *** //
   [[nodiscard]] uint32_t getOffsetToPointData() const;

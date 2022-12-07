@@ -9,16 +9,18 @@
 int main()
 {
 
-  LASFile lasReader("./alcoy.las");
+  LASFile lasFile("./alcoy.las");
 
   auto start = std::chrono::high_resolution_clock::now();
 
   size_t i{};
 
-  auto reader = lasReader.getPointReader();
-
+  auto header = lasFile.getLasHeader();
+  header->print();
+  auto reader = lasFile.getPointReader();
   while(reader->readPoint()) {
     ++i;
+    reader->point.printPoint();
   }
 
   // print number of points

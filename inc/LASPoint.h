@@ -21,7 +21,6 @@ public:
   // *** METHODS *** //
   void printPoint() const;
 
-
   // *** GETTERS / SETTERS *** //
   [[ nodiscard ]] int32_t getX() const;
   [[ nodiscard ]] int32_t getY() const;
@@ -55,9 +54,6 @@ public:
   [[ nodiscard ]] uint16_t getExtendedEdgeOfFlightLine() const;
   [[ nodiscard ]] uint8_t getExtendedClassification() const;
   [[ nodiscard ]] uint16_t getExtendedScanAngleRank() const;
-
-
-
 
 
   void setX(int32_t x) const;

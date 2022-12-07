@@ -45,7 +45,7 @@ public:
     lasFile.seekg(0, std::ios::beg);
 
     // read header
-    lasHeader = std::make_unique<LASHeader>();
+    lasHeader = std::make_shared<LASHeader>();
     lasHeader->readHeader(lasFile);
   }
 
