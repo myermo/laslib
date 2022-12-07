@@ -13,10 +13,10 @@ struct LASFile::impl
 {
 private:
   std::ifstream lasFile{};
-  std::shared_ptr<LASHeader> lasHeader;
-  LASPoint point; // Point being currently read
-  LASvlr vlr; // Variable length record being currently read
-  LASevlr evlr; // Extended variable length record being currently read
+  std::shared_ptr<LASHeader> lasHeader{};
+  LASPoint point{}; // Point being currently read
+  LASvlr vlr{}; // Variable length record being currently read
+  LASevlr evlr{}; // Extended variable length record being currently read
 
 public:
   // *** CONSTRUCTION / DESTRUCTION *** //

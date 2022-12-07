@@ -6,30 +6,55 @@
 
 bool vlrReader::readVlr()
 {
-  lasFile.read(reinterpret_cast<char*>(&vlr.reserved), sizeof(vlr.reserved));
-  lasFile.read(vlr.userID, sizeof(vlr.userID));
-  lasFile.read(reinterpret_cast<char*>(&vlr.recordID), sizeof(vlr.recordID));
-  lasFile.read(reinterpret_cast<char*>(&vlr.recordLengthAfterHeader), sizeof(vlr.recordLengthAfterHeader));
-  lasFile.read(vlr.description, sizeof(vlr.description));
+
+  uint16_t reserved, recordID, recordLengthAfterHeader;
+  char userID[16], description[32];
+  std::vector<char> data{};
+
+  lasFile.read(reinterpret_cast<char*>(&reserved), sizeof(reserved));
+  lasFile.read(userID, sizeof(userID));
+  lasFile.read(reinterpret_cast<char*>(&recordID), sizeof(recordID));
+  lasFile.read(reinterpret_cast<char*>(&recordLengthAfterHeader), sizeof(recordLengthAfterHeader));
+  lasFile.read(description, sizeof(description));
+
+  vlr.setReserved(reserved);
+  vlr.setUserId(userID);
+  vlr.setRecordId(recordID);
+  vlr.setRecordLengthAfterHeader(recordLengthAfterHeader);
+  vlr.setDescription(description);
 
   // Read the data
-  vlr.data.reserve(vlr.recordLengthAfterHeader);
-  lasFile.read(vlr.data.data(), vlr.recordLengthAfterHeader);
+  data.reserve(vlr.getRecordLengthAfterHeader());
+  lasFile.read(data.data(), vlr.getRecordLengthAfterHeader());
+
+  vlr.setData(data);
 
   return true;
 }
 
 bool evlrReader::readEvlr()
 {
-  lasFile.read(reinterpret_cast<char*>(&evlr.reserved), sizeof(evlr.reserved));
-  lasFile.read(evlr.userID, sizeof(evlr.userID));
-  lasFile.read(reinterpret_cast<char*>(&evlr.recordID), sizeof(evlr.recordID));
-  lasFile.read(reinterpret_cast<char*>(&evlr.recordLengthAfterHeader), sizeof(evlr.recordLengthAfterHeader));
-  lasFile.read(evlr.description, sizeof(evlr.description));
+  uint16_t reserved, recordID;
+  uint64_t recordLengthAfterHeader;
+  char userID[16], description[32];
+  std::vector<char> data{};
+
+
+  lasFile.read(reinterpret_cast<char*>(&reserved), sizeof(reserved));
+  lasFile.read(userID, sizeof(userID));
+  lasFile.read(reinterpret_cast<char*>(&recordID), sizeof(recordID));
+  lasFile.read(reinterpret_cast<char*>(&recordLengthAfterHeader), sizeof(recordLengthAfterHeader));
+  lasFile.read(description, sizeof(description));
+
+  evlr.setReserved(reserved);
+  evlr.setUserId(userID);
+  evlr.setRecordId(recordID);
+  evlr.setRecordLengthAfterHeader(recordLengthAfterHeader);
+  evlr.setDescription(description);
 
   // Read the data
-  evlr.data.reserve(evlr.recordLengthAfterHeader);
-  lasFile.read(evlr.data.data(), evlr.recordLengthAfterHeader);
+  data.reserve(evlr.getRecordLengthAfterHeader());
+  lasFile.read(data.data(), evlr.getRecordLengthAfterHeader());
 
   return true;
 }

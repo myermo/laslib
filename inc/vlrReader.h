@@ -7,6 +7,7 @@
 
 #include <fstream>
 #include "LASvlr.h"
+#include "LASevlr.h"
 
 class vlrReader
 {
