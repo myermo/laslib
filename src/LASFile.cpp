@@ -35,7 +35,8 @@ public:
     // check magic number of las file
     char magicNumber[4];
     lasFile.read(magicNumber, 4);
-    if (magicNumber[0] != 'L' || magicNumber[1] != 'A' || magicNumber[2] != 'S' || magicNumber[3] != 'F') {
+    if (magicNumber[0] != 'L' || magicNumber[1] != 'A' ||
+        magicNumber[2] != 'S' || magicNumber[3] != 'F') {
       // throw exception
       throw std::runtime_error("LASLIB: the file is not a LAS file");
     }
@@ -70,7 +71,9 @@ public:
   }
 };
 
-LASFile::LASFile(const std::string &filePath) : pImpl(std::make_unique<impl>(filePath)) {}
+LASFile::LASFile(const std::string &filePath) :
+pImpl(std::make_unique<impl>(filePath)) {}
+
 LASFile::~LASFile() = default;
 
 std::shared_ptr<LASHeader> LASFile::getLasHeader() const

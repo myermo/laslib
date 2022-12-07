@@ -27,13 +27,12 @@ private:
     explicit LASFile(const std::string& filePath);
     ~LASFile();
 
-  // *** METHODS *** //
+  // *** GETTERS / SETTERS *** //
   public:
     std::shared_ptr<LASHeader> getLasHeader() const;
     std::shared_ptr<AbstractLASPointReader> getPointReader();
     std::shared_ptr<vlrReader> getVlrReader();
     std::shared_ptr<evlrReader> getEvlrReader();
 
-  // *** GETTERS / SETTERS *** //
 
 };

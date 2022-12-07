@@ -10,74 +10,90 @@
 
 // Read X Y Z I
 void readXYZI(std::ifstream &lasFile, LASPoint &point) {
-  lasFile.read(reinterpret_cast<char*>(&point.x), 4);
-  lasFile.read(reinterpret_cast<char*>(&point.y), 4);
-  lasFile.read(reinterpret_cast<char*>(&point.z), 4);
-  lasFile.read(reinterpret_cast<char*>(&point.intensity), 2);
+
+  int32_t x, y, z;
+  uint16_t I;
+
+  lasFile.read(reinterpret_cast<char*>(&x), 4);
+  lasFile.read(reinterpret_cast<char*>(&y), 4);
+  lasFile.read(reinterpret_cast<char*>(&z), 4);
+  lasFile.read(reinterpret_cast<char*>(&I), 2);
+
+  point.setX(x);
+  point.setY(y);
+  point.setZ(z);
+  point.setI(I);
 }
 
 // Read RGB fields
 void readRGB(std::ifstream &lasFile, LASPoint &point)
 {
-  lasFile.read(reinterpret_cast<char*>(&point.red), 2);
-  lasFile.read(reinterpret_cast<char*>(&point.green), 2);
-  lasFile.read(reinterpret_cast<char*>(&point.blue), 2);
+
+  uint16_t r, g, b;
+
+  lasFile.read(reinterpret_cast<char*>(&r), 2);
+  lasFile.read(reinterpret_cast<char*>(&g), 2);
+  lasFile.read(reinterpret_cast<char*>(&b), 2);
+
+  point.setR(r);
+  point.setG(g);
+  point.setB(b);
 }
 
 // Read Wave Packets
 void readWavePackets(std::ifstream &lasFile, LASPoint &point)
 {
-  lasFile.read(reinterpret_cast<char*>(&point.wavePacketDescriptorIndex), 1);
-  lasFile.read(reinterpret_cast<char*>(&point.byteOffsetToWaveformData), 8);
-  lasFile.read(reinterpret_cast<char*>(&point.waveformDataPacketSize), 4);
-  lasFile.read(reinterpret_cast<char*>(&point.returnPointWaveformLocation), 8);
-  lasFile.read(reinterpret_cast<char*>(&point.xt), 4);
-  lasFile.read(reinterpret_cast<char*>(&point.yt), 4);
-  lasFile.read(reinterpret_cast<char*>(&point.zt), 4);
+
+  unsigned char wavePacketDescriptorIndex;
+  uint64_t byteOffsetToWaveformData;
+  uint32_t waveformDataPacketSize;
+  float returnPointWaveformLocation, xt, yt, zt;
+
+  lasFile.read(reinterpret_cast<char*>(&wavePacketDescriptorIndex), 1);
+  lasFile.read(reinterpret_cast<char*>(&byteOffsetToWaveformData), 8);
+  lasFile.read(reinterpret_cast<char*>(&waveformDataPacketSize), 4);
+  lasFile.read(reinterpret_cast<char*>(&returnPointWaveformLocation), 8);
+  lasFile.read(reinterpret_cast<char*>(&xt), 4);
+  lasFile.read(reinterpret_cast<char*>(&yt), 4);
+  lasFile.read(reinterpret_cast<char*>(&zt), 4);
+
+  point.setWavePacketDescriptorIndex(wavePacketDescriptorIndex);
+  point.setByteOffsetToWaveformData(byteOffsetToWaveformData);
+  point.setWaveformDataPacketSize(waveformDataPacketSize);
+  point.setReturnPointWaveformLocation(returnPointWaveformLocation);
+  point.setXt(xt);
+  point.setYt(yt);
+  point.setZt(zt);
 }
 
 // implement getPointReader for LASPointReader_1
 bool LASPointReader_0::readPoint()
 {
-  uint8_t packet{};
-  uint8_t classification{};
+  uint8_t packet{}, classification{}, scanAngleRank{}, userData{};
+  uint16_t pointSourceID{};
 
   // read point
   readXYZI(lasFile, point);
 
   lasFile.read(reinterpret_cast<char*>(&packet), 1);
 
-  // get 3 first bits of packet
-  point.returnNumber = packet & 0b00000111;
-
-  // get 3 next bits of packet
-  point.numberOfReturns = (packet & 0b00111000) >> 3;
-
-  // get 1 next bit of packet
-  point.scanDirectionFlag = (packet & 0b01000000) >> 6;
-
-  // get 1 next bit of packet
-  point.edgeOfFlightLine = (packet & 0b10000000) >> 7;
+  point.setReturnNumber(packet);
+  point.setNumberOfReturns(packet);
+  point.setScanDirectionFlag(packet);
+  point.setEdgeOfFlightLine(packet);
 
 
   lasFile.read(reinterpret_cast<char*>(&classification), 1);
 
-  // get 5 first bits of classification
-  point.classification = classification & 0b00011111;
+  point.setClassification(classification);
 
-  // get 1 next bit of classification
-  point.syntehticFlag = (classification & 0b00100000) >> 5;
+  lasFile.read(reinterpret_cast<char*>(&scanAngleRank), 1);
+  lasFile.read(reinterpret_cast<char*>(&userData), 1);
+  lasFile.read(reinterpret_cast<char*>(&pointSourceID), 2);
 
-  // get 1 next bit of classification
-  point.keyPointFlag = (classification & 0b01000000) >> 6;
-
-  // get 1 next bit of classification
-  point.withheldFlag = (classification & 0b10000000) >> 7;
-
-  lasFile.read(reinterpret_cast<char*>(&point.scanAngleRank), 1);
-  lasFile.read(reinterpret_cast<char*>(&point.userData), 1);
-  lasFile.read(reinterpret_cast<char*>(&point.pointSourceID), 2);
-
+  point.setScanAngleRank(scanAngleRank);
+  point.setUserData(userData);
+  point.setPointSourceID(pointSourceID);
 
   // check if we reached the end of the file
   return !lasFile.eof();
@@ -86,7 +102,12 @@ bool LASPointReader_0::readPoint()
 bool LASPointReader_1::readPoint()
 {
   reader_0.readPoint();
-  lasFile.read(reinterpret_cast<char*>(&point.gpsTime), 8);
+
+  double gpsTime;
+
+  lasFile.read(reinterpret_cast<char*>(&gpsTime), 8);
+
+  point.setGPSTime(gpsTime);
 
   return !lasFile.eof();
 }
@@ -135,30 +156,28 @@ bool LASPointReader_6::readPoint()
 
   lasFile.read(reinterpret_cast<char*>(&packet), 2);
 
+  point.setExtendedReturnNumber(packet);
+  point.setExtendedNumberOfReturns(packet);
+  point.setExtendedClassificationFlags(packet);
+  point.setExtendedScannerChannel(packet);
+  point.setExtendedScanDirectionFlag(packet);
+  point.setExtendedEdgeOfFlightLine(packet);
 
-  // get 0-3 bits of packet
-  point.extended_returnNumber = packet & 0x0F;
+  uint8_t extended_classification, userData;
+  uint16_t extended_scanAngleRank, pointSourceID;
+  double gpsTime;
 
-  // get 4-7 bits of packet
-  point.extended_numberOfReturns = (packet & 0xF0) >> 4;
+  lasFile.read(reinterpret_cast<char*>(&extended_classification), 1);
+  lasFile.read(reinterpret_cast<char*>(&userData), 1);
+  lasFile.read(reinterpret_cast<char*>(&extended_scanAngleRank), 2);
+  lasFile.read(reinterpret_cast<char*>(&pointSourceID), 2);
+  lasFile.read(reinterpret_cast<char*>(&gpsTime), 8);
 
-  // get 8-11 bits of packet
-  point.extended_classificationFlags = (packet & 0x0F00) >> 8;
-
-  // get 2 next bits of packet
-  point.extended_scannerChannel = (packet & 0x3000) >> 12;
-
-  // get 1 next bits of packet
-  point.extended_scanDirectionFlag = (packet & 0x4000) >> 14;
-
-  // get 1 next bits of packet
-  point.extended_edgeOfFlightLine = (packet & 0x8000) >> 15;
-
-  lasFile.read(reinterpret_cast<char*>(&point.extended_classification), 1);
-  lasFile.read(reinterpret_cast<char*>(&point.userData), 1);
-  lasFile.read(reinterpret_cast<char*>(&point.extended_scanAngleRank), 2);
-  lasFile.read(reinterpret_cast<char*>(&point.pointSourceID), 2);
-  lasFile.read(reinterpret_cast<char*>(&point.gpsTime), 8);
+  point.setExtendedClassification(extended_classification);
+  point.setUserData(userData);
+  point.setExtendedScanAngleRank(extended_scanAngleRank);
+  point.setPointSourceID(pointSourceID);
+  point.setGPSTime(gpsTime);
 
 
   return !lasFile.eof();
@@ -177,7 +196,10 @@ bool LASPointReader_8::readPoint()
 {
   reader_7.readPoint();
 
-  lasFile.read(reinterpret_cast<char*>(&point.nir), 2);
+  uint16_t nir;
+
+  lasFile.read(reinterpret_cast<char*>(&nir), 2);
+  point.setNIR(nir);
 
   return !lasFile.eof();
 }
