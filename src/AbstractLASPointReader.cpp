@@ -96,7 +96,7 @@ bool LASPointReader_0::readPoint()
   point.setPointSourceID(pointSourceID);
 
   // check if we reached the end of the file
-  return !lasFile.eof();
+  return lasFile.good();
 }
 
 bool LASPointReader_1::readPoint()
@@ -109,7 +109,7 @@ bool LASPointReader_1::readPoint()
 
   point.setGPSTime(gpsTime);
 
-  return !lasFile.eof();
+  return lasFile.good();
 }
 
 bool LASPointReader_2::readPoint()
@@ -117,7 +117,7 @@ bool LASPointReader_2::readPoint()
   reader_0.readPoint();
 
   readRGB(lasFile, point);
-  return !lasFile.eof();
+  return lasFile.good();
 }
 
 bool LASPointReader_3::readPoint()
@@ -126,7 +126,7 @@ bool LASPointReader_3::readPoint()
   reader_1.readPoint();
   reader_2.readPoint();
 
-  return !lasFile.eof();
+  return lasFile.good();
 }
 
 bool LASPointReader_4::readPoint()
@@ -135,7 +135,7 @@ bool LASPointReader_4::readPoint()
 
   readWavePackets(lasFile, point);
 
-  return !lasFile.eof();
+  return lasFile.good();
 }
 
 bool LASPointReader_5::readPoint()
@@ -144,7 +144,7 @@ bool LASPointReader_5::readPoint()
 
   readWavePackets(lasFile, point);
 
-  return !lasFile.eof();
+  return lasFile.good();
 }
 
 bool LASPointReader_6::readPoint()
@@ -178,9 +178,6 @@ bool LASPointReader_6::readPoint()
   point.setPointSourceID(pointSourceID);
   point.setGPSTime(gpsTime);
 
-  // move file pointer 44 (actual point size - format point size) bytes forward
-  lasFile.seekg(44, std::ios::cur);
-
   // ExtraByte reading should be here
 
   return lasFile.good();
@@ -192,7 +189,7 @@ bool LASPointReader_7::readPoint()
 
   readRGB(lasFile, point);
 
-  return !lasFile.eof();
+  return lasFile.good();
 }
 
 bool LASPointReader_8::readPoint()
@@ -204,7 +201,7 @@ bool LASPointReader_8::readPoint()
   lasFile.read(reinterpret_cast<char*>(&nir), 2);
   point.setNIR(nir);
 
-  return !lasFile.eof();
+  return lasFile.good();
 }
 
 bool LASPointReader_9::readPoint()
@@ -212,7 +209,7 @@ bool LASPointReader_9::readPoint()
   reader_6.readPoint();
   readWavePackets(lasFile, point);
 
-  return !lasFile.eof();
+  return lasFile.good();
 }
 
 bool LASPointReader_10::readPoint()
@@ -220,7 +217,7 @@ bool LASPointReader_10::readPoint()
   reader_8.readPoint();
   readWavePackets(lasFile, point);
 
-  return !lasFile.eof();
+  return lasFile.good();
 }
 
 std::shared_ptr<AbstractLASPointReader>

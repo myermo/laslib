@@ -47,84 +47,6 @@ class LASvlr
 
 };
 
-std::string printDataTypeName(const unsigned char dt) const
-{
-  std::stringstream ss{};
-  switch (dt) {
-    case 0:
-      ss << "undocumented extra bytes";
-      break;
-    case 1:
-      ss << "unsigned char";
-      break;
-    case 2:
-      ss << "char";
-      break;
-    case 3:
-      ss << "unsigned short";
-      break;
-    case 4:
-      ss << "short";
-      break;
-    case 5:
-      ss << "unsigned long";
-      break;
-    case 6:
-      ss << "long";
-      break;
-    case 7:
-      ss << "unsigned long long";
-      break;
-    case 8:
-      ss << "long long";
-      break;
-    case 9:
-      ss << "float";
-      break;
-    case 10:
-      ss << "double";
-      break;
-    case 11:
-      ss << "unsigned char[2]";
-      break;
-    case 12:
-      ss << "char[2]";
-      break;
-    case 13:
-      ss << "unsigned short[2]";
-      break;
-    case 14:
-      ss << "short[2]";
-      break;
-    case 15:
-      ss << "unsigned long[2]";
-      break;
-    case 16:
-      ss << "long[2]";
-      break;
-    case 17:
-      ss << "unsigned long long[2]";
-      break;
-    case 18:
-      ss << "long long[2]";
-      break;
-    case 19:
-      ss << "float[2]";
-      break;
-    case 20:
-      ss << "double[2]";
-      break;
-    case 21:
-      ss << "unsigned char[3]";
-      break;
-    default:
-      std::cout << "Unknown data type";
-      break;
-  }
-
-  return ss.str();
-}
-
 class ExtraBytes
 {
   unsigned char reserved[2]{};
@@ -156,6 +78,84 @@ class ExtraBytes
     lasFile.read(reinterpret_cast<char*>(scale), 24);
     lasFile.read(reinterpret_cast<char*>(offset), 24);
     lasFile.read(reinterpret_cast<char*>(description), 32);
+  }
+
+  static std::string printDataTypeName(const unsigned char dt)
+  {
+    std::stringstream ss{};
+    switch (dt) {
+      case 0:
+        ss << "undocumented extra bytes";
+        break;
+      case 1:
+        ss << "unsigned char";
+        break;
+      case 2:
+        ss << "char";
+        break;
+      case 3:
+        ss << "unsigned short";
+        break;
+      case 4:
+        ss << "short";
+        break;
+      case 5:
+        ss << "unsigned long";
+        break;
+      case 6:
+        ss << "long";
+        break;
+      case 7:
+        ss << "unsigned long long";
+        break;
+      case 8:
+        ss << "long long";
+        break;
+      case 9:
+        ss << "float";
+        break;
+      case 10:
+        ss << "double";
+        break;
+      case 11:
+        ss << "unsigned char[2]";
+        break;
+      case 12:
+        ss << "char[2]";
+        break;
+      case 13:
+        ss << "unsigned short[2]";
+        break;
+      case 14:
+        ss << "short[2]";
+        break;
+      case 15:
+        ss << "unsigned long[2]";
+        break;
+      case 16:
+        ss << "long[2]";
+        break;
+      case 17:
+        ss << "unsigned long long[2]";
+        break;
+      case 18:
+        ss << "long long[2]";
+        break;
+      case 19:
+        ss << "float[2]";
+        break;
+      case 20:
+        ss << "double[2]";
+        break;
+      case 21:
+        ss << "unsigned char[3]";
+        break;
+      default:
+        std::cout << "Unknown data type";
+        break;
+    }
+
+    return ss.str();
   }
 
   void print() const {

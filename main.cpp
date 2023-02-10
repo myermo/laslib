@@ -9,7 +9,7 @@
 int main()
 {
 
-  LASFile lasFile("./leg003_points.las");
+  LASFile lasFile("./alcoy.las");
 
   auto start = std::chrono::high_resolution_clock::now();
 

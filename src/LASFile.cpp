@@ -59,16 +59,6 @@ public:
     // Get position of the cursor
     return LASPointReaderFactory::createReader(lasFile, point, chooseFormat(lasHeader->getPointDataRecordFormat()));
   }
-
-//  std::shared_ptr<vlrReader> getVlrReader() {
-//    lasFile.seekg(lasHeader->getOffsetToVLR(), std::ios::beg);
-//    return std::make_shared<vlrReader>(lasFile, vlr);
-//  }
-//
-//  std::shared_ptr<evlrReader> getEvlrReader() {
-//    lasFile.seekg(lasHeader->getOffsetToEVLR(), std::ios::beg);
-//    return std::make_shared<evlrReader>(lasFile, evlr);
-//  }
 };
 
 LASFile::LASFile(const std::string &filePath) :
