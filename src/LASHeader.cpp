@@ -184,7 +184,7 @@ public:
       if (vlrList.back().getRecordId() == 4) // Extra_Bytes fields
       {
         // TODO: Parametrize 192
-        // How many extra bytes are there?
+        // How many extra bytes fields are there?
         uint16_t numberOfExtraBytes = vlr.getRecordLengthAfterHeader() / 192;
 
         // Read the extra bytes

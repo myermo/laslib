@@ -18,10 +18,9 @@ int main()
   auto header = lasFile.getLasHeader();
   header->print();
   auto reader = lasFile.getPointReader();
-  // FIXME: If VLR present, the data after each most must be handled.
   while(reader->readPoint()) {
     ++i;
-    reader->point.printPoint();
+//    reader->point.printPoint();
   }
 
   // print number of points
