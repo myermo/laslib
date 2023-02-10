@@ -9,18 +9,16 @@
 #include <iostream>
 #include <memory>
 
-struct LASFile::impl
+struct LASFile::Impl
 {
 private:
   std::ifstream lasFile{};
   std::shared_ptr<LASHeader> lasHeader{};
   LASPoint point{}; // Point being currently read
-  LASvlr vlr{}; // Variable length record being currently read
-  LASevlr evlr{}; // Extended variable length record being currently read
 
 public:
   // *** CONSTRUCTION / DESTRUCTION *** //
-  explicit impl(const std::string& filePath)
+  explicit Impl(const std::string& filePath)
   {
     // open filepath in binary mode and store it in lasFile
     lasFile.open(filePath, std::ios::binary);
@@ -57,41 +55,45 @@ public:
 
   std::shared_ptr<AbstractLASPointReader> getPointReader() {
     lasFile.seekg(lasHeader->getOffsetToPointData(), std::ios::beg);
+
+    // Get position of the cursor
+    std::cout << "Position: " << lasFile.tellg() << "\n";
+    std::cout << "Offset: " << lasHeader->getOffsetToPointData() << "\n";
     return LASPointReaderFactory::createReader(lasFile, point, chooseFormat(lasHeader->getPointDataRecordFormat()));
   }
 
-  std::shared_ptr<vlrReader> getVlrReader() {
-    lasFile.seekg(lasHeader->getOffsetToVLR(), std::ios::beg);
-    return std::make_shared<vlrReader>(lasFile, vlr);
-  }
-
-  std::shared_ptr<evlrReader> getEvlrReader() {
-    lasFile.seekg(lasHeader->getOffsetToEVLR(), std::ios::beg);
-    return std::make_shared<evlrReader>(lasFile, evlr);
-  }
+//  std::shared_ptr<vlrReader> getVlrReader() {
+//    lasFile.seekg(lasHeader->getOffsetToVLR(), std::ios::beg);
+//    return std::make_shared<vlrReader>(lasFile, vlr);
+//  }
+//
+//  std::shared_ptr<evlrReader> getEvlrReader() {
+//    lasFile.seekg(lasHeader->getOffsetToEVLR(), std::ios::beg);
+//    return std::make_shared<evlrReader>(lasFile, evlr);
+//  }
 };
 
 LASFile::LASFile(const std::string &filePath) :
-pImpl(std::make_unique<impl>(filePath)) {}
+  impl(std::make_unique<Impl>(filePath)) {}
 
 LASFile::~LASFile() = default;
 
 std::shared_ptr<LASHeader> LASFile::getLasHeader() const
 {
-  return pImpl->getLasHeader();
+  return impl->getLasHeader();
 }
 
 std::shared_ptr<AbstractLASPointReader> LASFile::getPointReader()
 {
-  return pImpl->getPointReader();
+  return impl->getPointReader();
 }
 
-std::shared_ptr<vlrReader> LASFile::getVlrReader()
-{
-  return pImpl->getVlrReader();
-}
+//std::shared_ptr<vlrReader> LASFile::getVlrReader()
+//{
+//  return impl->getVlrReader();
+//}
 
-std::shared_ptr<evlrReader> LASFile::getEvlrReader()
-{
-  return pImpl->getEvlrReader();
-}
+//std::shared_ptr<evlrReader> LASFile::getEvlrReader()
+//{
+//  return impl->getEvlrReader();
+//}

@@ -9,7 +9,6 @@ bool vlrReader::readVlr()
 
   uint16_t reserved, recordID, recordLengthAfterHeader;
   char userID[16], description[32];
-  std::vector<char> data{};
 
   lasFile.read(reinterpret_cast<char*>(&reserved), sizeof(reserved));
   lasFile.read(userID, sizeof(userID));
@@ -23,11 +22,13 @@ bool vlrReader::readVlr()
   vlr.setRecordLengthAfterHeader(recordLengthAfterHeader);
   vlr.setDescription(description);
 
-  // Read the data
-  data.reserve(vlr.getRecordLengthAfterHeader());
-  lasFile.read(data.data(), vlr.getRecordLengthAfterHeader());
+  // Test reading of extra bytes
+  ExtraBytes eb;
 
-  vlr.setData(data);
+  eb.read(lasFile);
+  eb.read(lasFile);
+  eb.read(lasFile);
+  eb.read(lasFile);
 
   return true;
 }

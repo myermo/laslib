@@ -19,8 +19,8 @@ class LASFile
 private:
   // *** ATTRIBUTES *** //
 
-  struct impl; // forward declaration of implementation
-  std::unique_ptr<impl> pImpl; // unique pointer to implementation
+  class Impl; // forward declaration of implementation
+  std::unique_ptr<Impl> impl; // unique pointer to implementation
 
   // *** CONSTRUCTION / DESTRUCTION *** //
   public:

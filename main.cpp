@@ -9,7 +9,7 @@
 int main()
 {
 
-  LASFile lasFile("./alcoy.las");
+  LASFile lasFile("./leg003_points.las");
 
   auto start = std::chrono::high_resolution_clock::now();
 
@@ -18,9 +18,12 @@ int main()
   auto header = lasFile.getLasHeader();
   header->print();
   auto reader = lasFile.getPointReader();
+  // FIXME: If VLR present, the data after each most must be handled.
   while(reader->readPoint()) {
     ++i;
     reader->point.printPoint();
+
+    if (i == 5) break;
   }
 
   // print number of points

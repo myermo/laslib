@@ -3,6 +3,7 @@
 //
 
 #include "LASHeader.h"
+#include "LASvlr.h"
 #include <iostream>
 #include <iomanip>
 
@@ -46,6 +47,7 @@ public:
   uint32_t numberOfExtendedVariableLengthRecords{};
   uint64_t numberOfPointRecords{};
   uint64_t numberOfPointsByReturn[15]{};
+  std::vector<LASvlr> vlrList{}; // List of variable length records
 
   // *** CONSTRUCTION / DESTRUCTION *** //
   Impl() = default;
@@ -169,6 +171,32 @@ public:
       // Read the number of points by return
       fileStream.read(reinterpret_cast<char*>(&numberOfPointsByReturn), 120);
     }
+
+    // Read the variable length records
+    for (uint32_t i = 0; i < numberOfVariableLengthRecords; ++i)
+    {
+      LASvlr vlr{};
+      vlr.read(fileStream);
+      vlrList.push_back(vlr);
+      vlrList.back().print();
+
+      // TODO: Add support for other VLRs
+      if (vlrList.back().getRecordId() == 4) // Extra_Bytes fields
+      {
+        // TODO: Parametrize 192
+        // How many extra bytes are there?
+        uint16_t numberOfExtraBytes = vlr.getRecordLengthAfterHeader() / 192;
+
+        // Read the extra bytes
+        for (uint16_t j = 0; j < numberOfExtraBytes; ++j)
+        {
+          ExtraBytes extraBytes{};
+
+          extraBytes.read(fileStream);
+          extraBytes.print();
+        }
+      }
+    }
   }
 
   void print()
@@ -224,6 +252,33 @@ public:
     std::cout << "Min y: " << minY << std::endl;
     std::cout << "Max z: " << maxZ << std::endl;
     std::cout << "Min z: " << minZ << std::endl;
+    // Read fields only belonging to LAS 1.4 or greater
+    if (versionMajor >= 1 && versionMinor >= 4)
+    {
+      std::cout << "Start of wave data packet record: "
+                << startOfWaveformDataPacketRecord << std::endl;
+      std::cout << "Start of first extended variable length record: "
+                << startOfFirstExtendedVariableLengthRecord << std::endl;
+      std::cout << "Number of extended variable length records: "
+                << numberOfExtendedVariableLengthRecords << std::endl;
+      std::cout << "Number of point records: " << numberOfPointRecords
+                << std::endl;
+      std::cout << "Number of points by return: " << numberOfPointsByReturn[0]  << " "
+                << numberOfPointsByReturn[1] << " "
+                << numberOfPointsByReturn[2] << " "
+                << numberOfPointsByReturn[3] << " "
+                << numberOfPointsByReturn[4] << " "
+                << numberOfPointsByReturn[5] << " "
+                << numberOfPointsByReturn[6] << " "
+                << numberOfPointsByReturn[7] << " "
+                << numberOfPointsByReturn[8] << " "
+                << numberOfPointsByReturn[9] << " "
+                << numberOfPointsByReturn[10] << " "
+                << numberOfPointsByReturn[11] << " "
+                << numberOfPointsByReturn[12] << " "
+                << numberOfPointsByReturn[13] << " "
+                << numberOfPointsByReturn[14] << " " << std::endl;
+    }
   }
 };
 

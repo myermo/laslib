@@ -149,7 +149,6 @@ bool LASPointReader_5::readPoint()
 
 bool LASPointReader_6::readPoint()
 {
-
   readXYZI(lasFile, point);
 
   uint16_t packet{};
@@ -178,6 +177,9 @@ bool LASPointReader_6::readPoint()
   point.setExtendedScanAngleRank(extended_scanAngleRank);
   point.setPointSourceID(pointSourceID);
   point.setGPSTime(gpsTime);
+
+  // move file pointer 44 (actual point size - format point size) bytes forward
+  lasFile.seekg(44, std::ios::cur);
 
 
   return !lasFile.eof();
