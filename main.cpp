@@ -22,8 +22,6 @@ int main()
   while(reader->readPoint()) {
     ++i;
     reader->point.printPoint();
-
-    if (i == 5) break;
   }
 
   // print number of points

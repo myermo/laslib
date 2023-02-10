@@ -181,8 +181,9 @@ bool LASPointReader_6::readPoint()
   // move file pointer 44 (actual point size - format point size) bytes forward
   lasFile.seekg(44, std::ios::cur);
 
+  // ExtraByte reading should be here
 
-  return !lasFile.eof();
+  return lasFile.good();
 }
 
 bool LASPointReader_7::readPoint()

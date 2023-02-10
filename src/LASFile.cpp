@@ -57,8 +57,6 @@ public:
     lasFile.seekg(lasHeader->getOffsetToPointData(), std::ios::beg);
 
     // Get position of the cursor
-    std::cout << "Position: " << lasFile.tellg() << "\n";
-    std::cout << "Offset: " << lasHeader->getOffsetToPointData() << "\n";
     return LASPointReaderFactory::createReader(lasFile, point, chooseFormat(lasHeader->getPointDataRecordFormat()));
   }
 
