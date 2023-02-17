@@ -18,19 +18,7 @@ int main()
   auto header = lasFile.getLasHeader();
   header->print();
   auto reader = lasFile.getPointReader();
-  while(reader->readPoint()) {
-    ++i;
-//    reader->point.printPoint();
-  }
 
-  // print number of points
-  std::cout << "Number of points: " << i << std::endl;
-
-  auto end = std::chrono::high_resolution_clock::now();
-
-
-  // print time in milliseconds
-  std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
 
   uint16_t fileSourceId = 0;
   uint16_t globalEncoding = 0;
@@ -40,8 +28,6 @@ int main()
   uint8_t projectId4[8] = {0};
   uint8_t versionMajor = 1;
   uint8_t versionMinor = 2;
-  uint16_t dayOfYear = 222;
-  uint16_t year = 2023;
   uint16_t headerSize = 227;
   uint32_t offsetToPointData = 227;
   uint32_t numberOfVariableLengthRecords = 0;
@@ -62,6 +48,17 @@ int main()
   double y_min = 4286623.63;
   double z_max = 874.12;
   double z_min = 836.42;
+
+  // compute number of current day of the year
+  std::time_t t = std::time(nullptr);
+  std::tm tm = *std::localtime(&t);
+  uint16_t dayOfYear = tm.tm_yday;
+
+  // compute current year
+  uint16_t year = tm.tm_year + 1900;
+
+
+
 
   // Write las file
   std::ofstream lasFileOut("./alcoy_out.las", std::ios::binary);
@@ -97,6 +94,51 @@ int main()
   lasFileOut.write(reinterpret_cast<char*>(&y_min), sizeof(y_min));
   lasFileOut.write(reinterpret_cast<char*>(&z_max), sizeof(z_max));
   lasFileOut.write(reinterpret_cast<char*>(&z_min), sizeof(z_min));
+
+
+
+
+
+
+
+  while(reader->readPoint()) {
+    ++i;
+//    reader->point.printPoint();
+    uint32_t x = reader->point.getX();
+    uint32_t y = reader->point.getY();
+    uint32_t z = reader->point.getZ();
+    uint16_t intensity = reader->point.getI();
+    uint8_t packet{};
+    packet = reader->point.getReturnNumber();
+    packet |= reader->point.getNumberOfReturns() << 3;
+    packet |= reader->point.getScanDirectionFlag() << 6;
+    packet |= reader->point.getEdgeOfFlightLine() << 7;
+    uint8_t classification = reader->point.getClassification();
+    uint8_t scanAngleRank = reader->point.getScanAngleRank();
+    uint8_t userData = reader->point.getUserData();
+    uint16_t pointSourceId = reader->point.getPointSourceID();
+
+    lasFileOut.write(reinterpret_cast<char*>(&x), sizeof(x));
+    lasFileOut.write(reinterpret_cast<char*>(&y), sizeof(y));
+    lasFileOut.write(reinterpret_cast<char*>(&z), sizeof(z));
+    lasFileOut.write(reinterpret_cast<char*>(&intensity), sizeof(intensity));
+    lasFileOut.write(reinterpret_cast<char*>(&packet), sizeof(packet));
+    lasFileOut.write(reinterpret_cast<char*>(&classification), sizeof(classification));
+    lasFileOut.write(reinterpret_cast<char*>(&scanAngleRank), sizeof(scanAngleRank));
+    lasFileOut.write(reinterpret_cast<char*>(&userData), sizeof(userData));
+    lasFileOut.write(reinterpret_cast<char*>(&pointSourceId), sizeof(pointSourceId));
+  }
+
+  // print number of points
+  std::cout << "Number of points: " << i << std::endl;
+
+  auto end = std::chrono::high_resolution_clock::now();
+
+
+  // print time in milliseconds
+  std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
+
+
 
 
 
