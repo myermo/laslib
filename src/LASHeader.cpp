@@ -52,7 +52,7 @@ public:
   // *** CONSTRUCTION / DESTRUCTION *** //
   Impl() = default;
 
-  void readHeader(std::ifstream &fileStream)
+  void readHeader(std::fstream& fileStream)
   {
     // Read the file signature
     fileStream.read(reinterpret_cast<char*>(&fileSignature), 4);
@@ -199,6 +199,127 @@ public:
     }
   }
 
+  void writeHeader(std::fstream& fileStream)
+  {
+    // Read the file signature
+    fileStream.write(reinterpret_cast<char*>(&fileSignature), 4);
+
+    // Read the file source ID
+    fileStream.write(reinterpret_cast<char*>(&fileSourceID), 2);
+
+    // Read the global encoding
+    fileStream.write(reinterpret_cast<char*>(&globalEncoding), 2);
+
+    // Read the project ID GUID data 1
+    fileStream.write(reinterpret_cast<char*>(&projectID_GUID_data_1), 4);
+
+    // Read the project ID GUID data 2
+    fileStream.write(reinterpret_cast<char*>(&projectID_GUID_data_2), 2);
+
+    // Read the project ID GUID data 3
+    fileStream.write(reinterpret_cast<char*>(&projectID_GUID_data_3), 2);
+
+    // Read the project ID GUID data 4
+    fileStream.write(reinterpret_cast<char*>(&projectID_GUID_data_4), 8);
+
+    // Read the version major
+    fileStream.write(reinterpret_cast<char*>(&versionMajor), 1);
+
+    // Read the version minor
+    fileStream.write(reinterpret_cast<char*>(&versionMinor), 1);
+
+    // Read the system identifier
+    fileStream.write(reinterpret_cast<char*>(&systemIdentifier), 32);
+
+    // Read the generating software
+    fileStream.write(reinterpret_cast<char*>(&generatingSoftware), 32);
+
+    // Read the file creation day of year
+    fileStream.write(reinterpret_cast<char*>(&fileCreationDayOfYear), 2);
+
+    // Read the file creation year
+    fileStream.write(reinterpret_cast<char*>(&fileCreationYear), 2);
+
+    // Read the header size
+    fileStream.write(reinterpret_cast<char*>(&headerSize), 2);
+
+    // Read the offset to point data
+    fileStream.write(reinterpret_cast<char*>(&offsetToPointData), 4);
+
+    // Read the number of variable length records
+    fileStream.write(reinterpret_cast<char*>(&numberOfVariableLengthRecords), 4);
+
+    // Read the point data record format
+    fileStream.write(reinterpret_cast<char*>(&pointDataRecordFormat), 1);
+
+    // Read the point data record length
+    fileStream.write(reinterpret_cast<char*>(&pointDataRecordLength), 2);
+
+    // Read the legacy number of point records
+    fileStream.write(reinterpret_cast<char*>(&legacyNumberOfPointRecords), 4);
+
+    // Read the legacy number of points by return
+    fileStream.write(reinterpret_cast<char*>(&legacyNumberOfPointsByReturn), 20);
+
+    // Read the x scale factor
+    fileStream.write(reinterpret_cast<char*>(&xScaleFactor), 8);
+
+    // Read the y scale factor
+    fileStream.write(reinterpret_cast<char*>(&yScaleFactor), 8);
+
+    // Read the z scale factor
+    fileStream.write(reinterpret_cast<char*>(&zScaleFactor), 8);
+
+    // Read the x offset
+    fileStream.write(reinterpret_cast<char*>(&xOffset), 8);
+
+    // Read the y offset
+    fileStream.write(reinterpret_cast<char*>(&yOffset), 8);
+
+    // Read the z offset
+    fileStream.write(reinterpret_cast<char*>(&zOffset), 8);
+
+    // Read the max x
+    fileStream.write(reinterpret_cast<char*>(&maxX), 8);
+
+    // Read the min x
+    fileStream.write(reinterpret_cast<char*>(&minX), 8);
+
+    // Read the max y
+    fileStream.write(reinterpret_cast<char*>(&maxY), 8);
+
+    // Read the min y
+    fileStream.write(reinterpret_cast<char*>(&minY), 8);
+
+    // Read the max z
+    fileStream.write(reinterpret_cast<char*>(&maxZ), 8);
+
+    // Read the min z
+    fileStream.write(reinterpret_cast<char*>(&minZ), 8);
+
+    // Read fields only belonging to LAS 1.4 or greater
+    if (versionMajor >= 1 && versionMinor >= 4)
+    {
+      // Read the start of wave data packet record
+      fileStream.write(reinterpret_cast<char*>(&startOfWaveformDataPacketRecord),
+                      8);
+
+      // Read the start of first extended variable length record
+      fileStream.write(
+        reinterpret_cast<char*>(&startOfFirstExtendedVariableLengthRecord), 8);
+
+      // Read the number of extended variable length records
+      fileStream.write(
+        reinterpret_cast<char*>(&numberOfExtendedVariableLengthRecords), 4);
+
+      // Read the number of point records
+      fileStream.write(reinterpret_cast<char*>(&numberOfPointRecords), 8);
+
+      // Read the number of points by return
+      fileStream.write(reinterpret_cast<char*>(&numberOfPointsByReturn), 120);
+    }
+  }
+
   void print()
   {
     // Print the header
@@ -285,9 +406,14 @@ public:
 LASHeader::LASHeader() : impl(std::make_unique<Impl>()) {}
 LASHeader::~LASHeader() = default;
 
-void LASHeader::readHeader(std::ifstream &fileStream) const
+void LASHeader::readHeader(std::fstream& fileStream) const
 {
   impl->readHeader(fileStream);
+}
+
+void LASHeader::writeHeader(std::fstream& fileStream) const
+{
+  impl->writeHeader(fileStream);
 }
 
 void LASHeader::print() const { impl->print(); }

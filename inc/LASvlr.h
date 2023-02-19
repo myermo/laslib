@@ -26,7 +26,7 @@ class LASvlr
   LASvlr(const LASvlr& other);
 
   // *** METHODS *** //
-  void read(std::ifstream& lasFile);
+  void read(std::fstream& lasFile);
   void print() const;
 
 
@@ -65,7 +65,7 @@ class ExtraBytes
   ExtraBytes() = default;
   ~ExtraBytes() = default;
 
-  void read(std::ifstream& lasFile)
+  void read(std::fstream& lasFile)
   {
     lasFile.read(reinterpret_cast<char*>(reserved), 2);
     lasFile.read(reinterpret_cast<char*>(&dataType), 1);

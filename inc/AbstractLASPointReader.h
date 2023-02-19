@@ -34,11 +34,11 @@ class AbstractLASPointReader
 public:
   LASPoint& point;
 protected:
-  std::ifstream& lasFile;
+  std::fstream& lasFile;
 
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:
-  AbstractLASPointReader(std::ifstream &lasFile, LASPoint &point)
+  AbstractLASPointReader(std::fstream &lasFile, LASPoint &point)
     : lasFile(lasFile), point(point)
   {}
 
@@ -52,7 +52,7 @@ class LASPointReader_0 : public AbstractLASPointReader
 
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:
-  LASPointReader_0(std::ifstream &lasFile, LASPoint &point)
+  LASPointReader_0(std::fstream &lasFile, LASPoint &point)
     : AbstractLASPointReader(lasFile, point)
   {}
 
@@ -66,7 +66,7 @@ class LASPointReader_1 : public AbstractLASPointReader
 
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:
-  LASPointReader_1(std::ifstream &lasFile, LASPoint &point)
+  LASPointReader_1(std::fstream &lasFile, LASPoint &point)
   : AbstractLASPointReader(lasFile, point)
   {}
 
@@ -84,7 +84,7 @@ class LASPointReader_2 : public AbstractLASPointReader
 
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:
-  LASPointReader_2(std::ifstream &lasFile, LASPoint &point)
+  LASPointReader_2(std::fstream &lasFile, LASPoint &point)
   : AbstractLASPointReader(lasFile, point)
   {}
   // *** Attributes *** //
@@ -100,7 +100,7 @@ class LASPointReader_3 : public AbstractLASPointReader
 {
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:
-  LASPointReader_3(std::ifstream &lasFile, LASPoint &point)
+  LASPointReader_3(std::fstream &lasFile, LASPoint &point)
   : AbstractLASPointReader(lasFile, point)
   {}
 
@@ -119,7 +119,7 @@ class LASPointReader_4 : public AbstractLASPointReader
 {
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:
-  LASPointReader_4(std::ifstream &lasFile, LASPoint &point)
+  LASPointReader_4(std::fstream &lasFile, LASPoint &point)
     : AbstractLASPointReader(lasFile, point)
   {}
 
@@ -136,7 +136,7 @@ class LASPointReader_5 : public AbstractLASPointReader
 {
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:
-  LASPointReader_5(std::ifstream &lasFile, LASPoint &point)
+  LASPointReader_5(std::fstream &lasFile, LASPoint &point)
     : AbstractLASPointReader(lasFile, point)
   {}
 
@@ -153,7 +153,7 @@ class LASPointReader_6 : public AbstractLASPointReader
 {
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:
-  LASPointReader_6(std::ifstream &lasFile, LASPoint &point)
+  LASPointReader_6(std::fstream &lasFile, LASPoint &point)
     : AbstractLASPointReader(lasFile, point)
   {}
 
@@ -170,7 +170,7 @@ private:
 
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:
-  LASPointReader_7(std::ifstream &lasFile, LASPoint &point)
+  LASPointReader_7(std::fstream &lasFile, LASPoint &point)
     : AbstractLASPointReader(lasFile, point)
   {}
 
@@ -187,7 +187,7 @@ private:
 
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:
-  LASPointReader_8(std::ifstream &lasFile, LASPoint &point)
+  LASPointReader_8(std::fstream &lasFile, LASPoint &point)
     : AbstractLASPointReader(lasFile, point)
   {}
 
@@ -204,7 +204,7 @@ private:
 
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:
-  LASPointReader_9(std::ifstream &lasFile, LASPoint &point)
+  LASPointReader_9(std::fstream &lasFile, LASPoint &point)
     : AbstractLASPointReader(lasFile, point)
   {}
 
@@ -221,7 +221,7 @@ private:
 
   // *** CONSTRUCTION / DESTRUCTION *** //
 public:
-  LASPointReader_10(std::ifstream &lasFile, LASPoint &point)
+  LASPointReader_10(std::fstream &lasFile, LASPoint &point)
     : AbstractLASPointReader(lasFile, point)
   {}
 
@@ -236,7 +236,7 @@ class LASPointReaderFactory
   // *** METHODS *** //
 public:
   static std::shared_ptr<AbstractLASPointReader>
-  createReader(std::ifstream &lasFile, LASPoint &point,
+  createReader(std::fstream& lasFile, LASPoint &point,
                PointDataRecordFormat format);
 };
 

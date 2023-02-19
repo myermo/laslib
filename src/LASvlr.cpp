@@ -22,7 +22,7 @@ public:
 
   // *** METHODS *** //
 
-  void read(std::ifstream& lasFile) {
+  void read(std::fstream& lasFile) {
     std::cout << "Reading VLR..." << std::endl;
     lasFile.read(reinterpret_cast<char*>(&reserved), sizeof(reserved));
     lasFile.read(reinterpret_cast<char*>(&userID), sizeof(userID));
@@ -144,7 +144,7 @@ void LASvlr::setDescription(const char* description) const {
   std::memcpy(impl->description, description, 32);
 }
 
-void LASvlr::read(std::ifstream& lasFile) {
+void LASvlr::read(std::fstream& lasFile) {
   impl->read(lasFile);
 }
 

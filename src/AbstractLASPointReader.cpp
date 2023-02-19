@@ -9,7 +9,7 @@
 // Auxiliar functions
 
 // Read X Y Z I
-void readXYZI(std::ifstream &lasFile, LASPoint &point) {
+void readXYZI(std::fstream& lasFile, LASPoint &point) {
 
   int32_t x, y, z;
   uint16_t I;
@@ -26,7 +26,7 @@ void readXYZI(std::ifstream &lasFile, LASPoint &point) {
 }
 
 // Read RGB fields
-void readRGB(std::ifstream &lasFile, LASPoint &point)
+void readRGB(std::fstream& lasFile, LASPoint &point)
 {
 
   uint16_t r, g, b;
@@ -41,7 +41,7 @@ void readRGB(std::ifstream &lasFile, LASPoint &point)
 }
 
 // Read Wave Packets
-void readWavePackets(std::ifstream &lasFile, LASPoint &point)
+void readWavePackets(std::fstream& lasFile, LASPoint &point)
 {
 
   unsigned char wavePacketDescriptorIndex;
@@ -221,7 +221,7 @@ bool LASPointReader_10::readPoint()
 }
 
 std::shared_ptr<AbstractLASPointReader>
-LASPointReaderFactory::createReader(std::ifstream &lasFile, LASPoint &point,
+LASPointReaderFactory::createReader(std::fstream& lasFile, LASPoint &point,
                                     PointDataRecordFormat format)
 {
   switch (format)

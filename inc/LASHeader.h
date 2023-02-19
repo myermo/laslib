@@ -9,6 +9,12 @@
 #include <cstdint>
 #include <memory>
 
+// TODO: Add support for more versions
+enum LASVersion {
+  V_1_2,
+  V_1_4
+};
+
 class LASHeader
 {
 public:
@@ -21,7 +27,8 @@ public:
   ~LASHeader();
 
   // *** METHODS *** //
-  void readHeader(std::ifstream &fileStream) const;
+  void readHeader(std::fstream& fileStream) const;
+  void writeHeader(std::fstream& fileStream) const;
   void print() const;
 
   // *** GETTERS / SETTERS *** //

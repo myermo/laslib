@@ -12,11 +12,11 @@
 class vlrReader
 {
 public:
-  std::ifstream& lasFile;
+  std::fstream& lasFile;
   LASvlr& vlr;
 
   // *** CONSTRUCTION / DESTRUCTION *** //
-    explicit vlrReader(std::ifstream& lasFile, LASvlr& vlr)
+    explicit vlrReader(std::fstream& lasFile, LASvlr& vlr)
     : lasFile(lasFile), vlr(vlr) {}
 
   // *** METHODS *** //
@@ -29,11 +29,11 @@ public:
 class evlrReader
 {
   public:
-  std::ifstream& lasFile;
+  std::fstream& lasFile;
   LASevlr& evlr;
 
   // *** CONSTRUCTION / DESTRUCTION *** //
-  explicit evlrReader(std::ifstream& lasFile, LASevlr& evlr)
+  explicit evlrReader(std::fstream& lasFile, LASevlr& evlr)
   : lasFile(lasFile), evlr(evlr) {}
 
   // *** METHODS *** //

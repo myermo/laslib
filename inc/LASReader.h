@@ -14,7 +14,7 @@
 #include <string>
 #include <memory>
 
-class LASFile
+class LASReader
 {
 private:
   // *** ATTRIBUTES *** //
@@ -24,11 +24,12 @@ private:
 
   // *** CONSTRUCTION / DESTRUCTION *** //
   public:
-    explicit LASFile(const std::string& filePath);
-    ~LASFile();
+    explicit LASReader(const std::string& filePath);
+    ~LASReader();
 
   // *** GETTERS / SETTERS *** //
   public:
     std::shared_ptr<LASHeader> getLasHeader() const;
     std::shared_ptr<AbstractLASPointReader> getPointReader();
+    void writeHeader(const std::shared_ptr<LASHeader> header);
 };
