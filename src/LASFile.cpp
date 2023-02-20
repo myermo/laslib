@@ -4,13 +4,11 @@
 
 #include "LASReader.h"
 #include "LASHeader.h"
-#include "vlrReader.h"
+#include "LASFormats.h"
 
-#include <filesystem>
 #include <fstream>
 #include <memory>
 
-namespace fs = std::filesystem;
 
 struct LASReader::Impl {
 private:

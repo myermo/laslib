@@ -26,15 +26,12 @@ int main()
 
   LASWriter lw("./alcoy_out.las");
   lw.writeHeader(header);
+  auto pw = lw.getPointWriter();
 
 
   // compute number of current day of the year
   std::time_t t = std::time(nullptr);
   std::tm tm = *std::localtime(&t);
-  uint16_t dayOfYear = tm.tm_yday;
-
-  // compute current year
-  uint16_t year = tm.tm_year + 1900;
 
   while(pReader->readPoint()) {
     ++i;

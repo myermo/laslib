@@ -8,6 +8,7 @@
 #include <iostream>
 #include "LASHeader.h"
 #include "AbstractLASPointWriter.h"
+#include "LASFormats.h"
 
 class LASPoint; // forward declaration
 
@@ -22,7 +23,7 @@ public:
 
   // *** CONSTRUCTION / DESTRUCTION *** //
   LASWriter();
-  LASWriter(const std::string& filename);
+  LASWriter(const std::string& filename, const LASVersion version = LASVersion::V_1_4);
 
   // *** METHODS *** //
   void writeHeader(const std::shared_ptr<LASHeader>& header);

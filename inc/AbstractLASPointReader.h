@@ -9,8 +9,8 @@
 #include <fstream>
 #include <memory>
 
+#include "LASFormats.h"
 #include "LASPoint.h"
-#include "PointDataRecordFormat.h"
 
 
 
@@ -111,7 +111,7 @@ public:
 
   // *** Attributes *** //
 private:
-  LASPointReader_0 reader_1{lasFile, point};
+  LASPointReader_1 reader_1{lasFile, point};
 
   // *** METHODS *** //
 public:
@@ -223,8 +223,5 @@ class LASPointReaderFactory
 public:
   static std::shared_ptr<AbstractLASPointReader>
   createReader(std::fstream& lasFile, LASPoint &point,
-               PointDataRecordFormat format);
+               LASPointFormat format);
 };
-
-PointDataRecordFormat chooseFormat(unsigned char format);
-

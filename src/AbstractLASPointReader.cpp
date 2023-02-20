@@ -3,7 +3,6 @@
 //
 
 #include "AbstractLASPointReader.h"
-
 #include <memory>
 
 // Auxiliar functions
@@ -222,64 +221,33 @@ bool LASPointReader_10::readPoint()
 
 std::shared_ptr<AbstractLASPointReader>
 LASPointReaderFactory::createReader(std::fstream& lasFile, LASPoint &point,
-                                    PointDataRecordFormat format)
+                                    LASPointFormat format)
 {
   switch (format)
   {
-    case PointDataRecordFormat::Format0:
+    case LASPointFormat::Format0:
       return std::make_shared<LASPointReader_0>(lasFile, point);
-    case PointDataRecordFormat::Format1:
+    case LASPointFormat::Format1:
       return std::make_shared<LASPointReader_1>(lasFile, point);
-    case PointDataRecordFormat::Format2:
+    case LASPointFormat::Format2:
       return std::make_shared<LASPointReader_2>(lasFile, point);
-    case PointDataRecordFormat::Format3:
+    case LASPointFormat::Format3:
       return std::make_shared<LASPointReader_3>(lasFile, point);
-    case PointDataRecordFormat::Format4:
+    case LASPointFormat::Format4:
       return std::make_shared<LASPointReader_4>(lasFile, point);
-    case PointDataRecordFormat::Format5:
+    case LASPointFormat::Format5:
       return std::make_shared<LASPointReader_5>(lasFile, point);
-    case PointDataRecordFormat::Format6:
+    case LASPointFormat::Format6:
       return std::make_shared<LASPointReader_6>(lasFile, point);
-    case PointDataRecordFormat::Format7:
+    case LASPointFormat::Format7:
       return std::make_shared<LASPointReader_7>(lasFile, point);
-    case PointDataRecordFormat::Format8:
+    case LASPointFormat::Format8:
       return std::make_shared<LASPointReader_8>(lasFile, point);
-    case PointDataRecordFormat::Format9:
+    case LASPointFormat::Format9:
       return std::make_shared<LASPointReader_9>(lasFile, point);
-    case PointDataRecordFormat::Format10:
+    case LASPointFormat::Format10:
       return std::make_shared<LASPointReader_10>(lasFile, point);
     default:
-      return nullptr;
-  }
-}
-
-PointDataRecordFormat chooseFormat(unsigned char format)
-{
-  switch (format)
-  {
-    case 0:
-      return PointDataRecordFormat::Format0;
-    case 1:
-      return PointDataRecordFormat::Format1;
-    case 2:
-      return PointDataRecordFormat::Format2;
-    case 3:
-      return PointDataRecordFormat::Format3;
-    case 4:
-      return PointDataRecordFormat::Format4;
-    case 5:
-      return PointDataRecordFormat::Format5;
-    case 6:
-      return PointDataRecordFormat::Format6;
-    case 7:
-      return PointDataRecordFormat::Format7;
-    case 8:
-      return PointDataRecordFormat::Format8;
-    case 9:
-      return PointDataRecordFormat::Format9;
-    case 10:
-      return PointDataRecordFormat::Format10;
-    default:
-      return PointDataRecordFormat::Format0;
+      throw std::runtime_error("Unknown LAS point format");
   }
 }

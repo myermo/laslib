@@ -9,11 +9,7 @@
 #include <cstdint>
 #include <memory>
 
-// TODO: Add support for more versions
-enum LASVersion {
-  V_1_2,
-  V_1_4
-};
+#include "LASFormats.h"
 
 class LASHeader
 {

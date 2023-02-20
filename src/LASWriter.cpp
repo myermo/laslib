@@ -7,7 +7,7 @@
 #include "AbstractLASPointWriter.h"
 
 LASWriter::LASWriter () {};
-LASWriter::LASWriter (const std::string& _filename) {
+LASWriter::LASWriter (const std::string& _filename, const LASVersion version) {
   lasFile.open(_filename, std::fstream::out | std::ios::binary);
 
   if (!lasFile.is_open()) {
