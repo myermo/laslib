@@ -19,7 +19,6 @@ class LASWriter {
 public:
   // *** ATTRIBUTES *** //
   std::fstream lasFile;
-  std::unique_ptr<AbstractLASPointWriter> pointWriter;
 
   // *** CONSTRUCTION / DESTRUCTION *** //
   LASWriter();
@@ -27,9 +26,8 @@ public:
 
   // *** METHODS *** //
   void writeHeader(const std::shared_ptr<LASHeader>& header);
-  void writePoint(const LASPoint& point) const;
-
   // *** OPERATORS *** //
 
   // *** GETTERS / SETTERS *** //
+  std::unique_ptr<AbstractLASPointWriter> getPointWriter(LASPointFormat format);
 };

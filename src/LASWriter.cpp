@@ -4,6 +4,7 @@
 
 #include "LASWriter.h"
 #include "LASPoint.h"
+#include "LASFormats.h"
 #include "AbstractLASPointWriter.h"
 
 LASWriter::LASWriter () {};
@@ -14,17 +15,12 @@ LASWriter::LASWriter (const std::string& _filename, const LASVersion version) {
     // throw exception
     throw std::runtime_error("LASLIB: Error opening file");
   }
-
-
-  // Provisional
-  pointWriter = std::make_unique<LASPointWriter_0>(lasFile);
 };
-
 
 void LASWriter::writeHeader(const std::shared_ptr<LASHeader>& header) {
   header->writeHeader(lasFile);
 }
 
-void LASWriter::writePoint(const LASPoint& point) const {
-  pointWriter->writePoint(point);
+std::unique_ptr<AbstractLASPointWriter> LASWriter::getPointWriter(const LASPointFormat format) {
+  return createLASPointWriter(lasFile, format);
 }

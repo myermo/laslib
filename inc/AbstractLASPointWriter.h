@@ -174,4 +174,4 @@ public:
   void writePoint(const LASPoint& point) override;
 };
 
-std::unique_ptr<AbstractLASPointWriter> createLASPointWriter(std::fstream& file, const LASPointFormat& format);
+std::unique_ptr<AbstractLASPointWriter> createLASPointWriter(std::fstream& file, LASPointFormat format);

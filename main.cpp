@@ -26,7 +26,7 @@ int main()
 
   LASWriter lw("./alcoy_out.las");
   lw.writeHeader(header);
-  auto pw = lw.getPointWriter();
+  auto pw = lw.getPointWriter(LASPointFormat::Format0);
 
 
   // compute number of current day of the year
@@ -35,7 +35,7 @@ int main()
 
   while(pReader->readPoint()) {
     ++i;
-    lw.writePoint(pReader->point);
+    pw->writePoint(pReader->point);
   }
 
   // print number of points
