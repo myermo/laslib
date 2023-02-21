@@ -7,20 +7,38 @@
 #include "LASFormats.h"
 #include "AbstractLASPointWriter.h"
 
-LASWriter::LASWriter () {};
-LASWriter::LASWriter (const std::string& _filename, const LASVersion version) {
-  lasFile.open(_filename, std::fstream::out | std::ios::binary);
+struct LASWriter::Impl {
+private:
+  std::fstream lasFile{};
 
-  if (!lasFile.is_open()) {
-    // throw exception
-    throw std::runtime_error("LASLIB: Error opening file");
+public:
+  Impl(const std::string& filename, const LASVersion version) {
+    lasFile.open(filename, std::fstream::out | std::ios::binary);
+
+    if (!lasFile.is_open()) {
+      // throw exception
+      throw std::runtime_error("LASLIB: Error opening file");
+    }
+  }
+
+  void writeHeader(const std::shared_ptr<LASHeader>& header) {
+    header->writeHeader(lasFile);
+  }
+
+  std::unique_ptr<AbstractLASPointWriter> getPointWriter(const LASPointFormat format) {
+    return createLASPointWriter(lasFile, format);
   }
 };
 
+LASWriter::LASWriter (const std::string& filename, LASVersion version) :
+  impl(std::make_unique<Impl>(filename, version)) {}
+
+LASWriter::~LASWriter() = default;
+
 void LASWriter::writeHeader(const std::shared_ptr<LASHeader>& header) {
-  header->writeHeader(lasFile);
+  impl->writeHeader(header);
 }
 
 std::unique_ptr<AbstractLASPointWriter> LASWriter::getPointWriter(const LASPointFormat format) {
-  return createLASPointWriter(lasFile, format);
+  return impl->getPointWriter(format);
 }
