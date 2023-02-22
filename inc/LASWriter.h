@@ -20,8 +20,18 @@ public:
   LASWriter(const std::string& filename, LASVersion version = LASVersion::V_1_4);
   ~LASWriter();
   // *** METHODS *** //
+
+  /**
+   * @brief Writes the header of the LASFile
+   * @see LASHeader
+   */
   void writeHeader(const std::shared_ptr<LASHeader>& header);
 
   // *** GETTERS / SETTERS *** //
+  /**
+   * @brief Returns a point writer for the given point format
+   * @param format: Point format
+   * @see LASPointFormat
+   */
   std::unique_ptr<AbstractLASPointWriter> getPointWriter(LASPointFormat format);
 };

@@ -9,7 +9,6 @@
 
 int main()
 {
-  // Split file logic in LASReader and LASWriter classes.
   LASReader reader("./alcoy.las");
 
   auto start = std::chrono::high_resolution_clock::now();
@@ -20,16 +19,9 @@ int main()
   header->print();
   auto pReader = reader.getPointReader();
 
-
-
   LASWriter lw("./alcoy_out.las");
   lw.writeHeader(header);
   auto pw = lw.getPointWriter(LASPointFormat::Format0);
-
-
-  // compute number of current day of the year
-  std::time_t t = std::time(nullptr);
-  std::tm tm = *std::localtime(&t);
 
   while(pReader->readPoint()) {
     ++i;

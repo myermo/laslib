@@ -11,6 +11,9 @@
 
 #include "LASFormats.h"
 
+/**
+ * @brief Class that represents the header of a LAS file in any version
+ */
 class LASHeader
 {
 public:
@@ -23,7 +26,20 @@ public:
   ~LASHeader();
 
   // *** METHODS *** //
+
+  /**
+   * @brief Reads the header of a LAS file in both v1.2 and v1.4
+   * @param fileStream  File stream of the LAS file.
+   * @see LASReader
+   */
   void readHeader(std::fstream& fileStream) const;
+
+  /**
+   * @brief Writes the header of a LAS file in both v1.2 and v1.4. The version
+   * of the file is determined when creating the LASWriter instance
+   * @param fileStream  File stream of the LAS file.
+   * @see LASWriter
+   */
   void writeHeader(std::fstream& fileStream) const;
   void print() const;
 

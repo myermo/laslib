@@ -8,6 +8,11 @@
 #include <cstdint>
 #include <memory>
 
+/**
+ * @brief Class that represents a point in a LAS file.
+ * The points contains all the information needed to represent any of the
+ * 10 point formats present in the LAS specification.
+ */
 class LASPoint
 {
   // *** ATTRIBUTES *** //
