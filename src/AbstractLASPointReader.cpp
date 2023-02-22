@@ -220,7 +220,7 @@ bool LASPointReader_10::readPoint()
 }
 
 std::shared_ptr<AbstractLASPointReader>
-LASPointReaderFactory::createReader(std::fstream& lasFile, LASPoint &point,
+createReader(std::fstream& lasFile, LASPoint &point,
                                     LASPointFormat format)
 {
   switch (format)

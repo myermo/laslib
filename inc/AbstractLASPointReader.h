@@ -216,12 +216,6 @@ public:
   bool readPoint() override;
 };
 
-// abstract las point reader factory
-class LASPointReaderFactory
-{
-  // *** METHODS *** //
-public:
-  static std::shared_ptr<AbstractLASPointReader>
+  std::shared_ptr<AbstractLASPointReader>
   createReader(std::fstream& lasFile, LASPoint &point,
                LASPointFormat format);
-};

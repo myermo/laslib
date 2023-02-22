@@ -9,8 +9,6 @@
 
 int main()
 {
-
-
   // Split file logic in LASReader and LASWriter classes.
   LASReader reader("./alcoy.las");
 

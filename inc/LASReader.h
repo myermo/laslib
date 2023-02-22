@@ -14,11 +14,15 @@
 #include <string>
 #include <memory>
 
+/**
+ * @brief Class that reads a LAS file. It provides the interface to read the header and the points of a given LAS file.
+ * @see LASHeader
+ * @see LASPointReader
+ */
 class LASReader
 {
 private:
   // *** ATTRIBUTES *** //
-
   class Impl; // forward declaration of implementation
   std::unique_ptr<Impl> impl; // unique pointer to implementation
 
@@ -29,7 +33,15 @@ private:
 
   // *** GETTERS / SETTERS *** //
   public:
-    std::shared_ptr<LASHeader> getLasHeader() const;
+  /**
+   * @brief Returns the header of the LAS file
+   * @return
+   */
+  [[nodiscard]] std::shared_ptr<LASHeader> getLasHeader() const;
+
+    /**
+     * @brief Returns the point reader of the LAS file
+     * @return
+     */
     std::shared_ptr<AbstractLASPointReader> getPointReader();
-    void writeHeader(const std::shared_ptr<LASHeader> header);
 };
