@@ -37,10 +37,5 @@ int main()
   // print time in milliseconds
   std::cout << std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() << std::endl;
 
-
-
-
-
-
   return 0;
 }
